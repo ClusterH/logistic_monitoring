@@ -1,0 +1,45 @@
+<ion-content class="bg_color" fullscreen>
+    <div class="banner">
+        <img src="assets/imgs/sign_in_bg.png" class="banner_bg">
+        <div class="logo">
+            <img src="assets/imgs/logo_2.png">
+            <h2>{{"app_title" | translate}}</h2>
+        </div>
+    </div>
+
+    <div class="form">
+        <ion-list lines="none">
+            <ion-item lines="none">
+                <ion-label mode="md" position="floating">{{"email_address" | translate}}</ion-label>
+                <ion-input mode="md" type="email"></ion-input>
+            </ion-item>
+
+            <ion-item lines="none">
+                <ion-label mode="md" position="floating">{{"password" | translate}}</ion-label>
+                <ion-input mode="md" type="password"></ion-input>
+                <h5 slot="end" (click)="forgotpassword()">{{"forgot" | translate}}</h5>
+            </ion-item>
+        </ion-list>
+        <ion-button size="large" shape="block" class="btn" (click)="location()">{{'login' | translate}}</ion-button>
+    </div>
+
+
+    <div class="social_login">
+        <!-- <p class="ion-text-center">{{'or_continue_with' | translate}}</p>
+        <ion-row>
+            <ion-col size="6">
+                <ion-button size="large" shape="block" class="btn fb_btn" (click)="location()">
+                    <img src="assets/imgs/ic_facebook.png">{{'facebook' | translate}}
+                </ion-button>
+            </ion-col>
+
+            <ion-col size="6">
+                <ion-button size="large" shape="block" class="btn google_btn" (click)="location()">
+                    <img src="assets/imgs/ic_google.png">{{'google' | translate}}
+                </ion-button>
+            </ion-col>
+        </ion-row> -->
+        <ion-button size="large" shape="block" class="btn new_user" (click)="signup()">{{'new_user' | translate}}
+        </ion-button>
+    </div>
+</ion-content>

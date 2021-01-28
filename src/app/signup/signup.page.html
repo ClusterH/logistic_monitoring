@@ -1,0 +1,48 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button text="" icon="chevron-back-outline"></ion-back-button>
+		</ion-buttons>
+		<ion-title>
+			<h2>{{'new_user' | translate}} <span>{{'register_now_to_continue' | translate}}</span></h2>
+		</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content class="bg_color">
+	<div class="form">
+		<ion-list lines="none">
+			<ion-item lines="none">
+				<ion-label mode="md" position="floating">{{"full_name" | translate}}</ion-label>
+				<ion-input mode="md" type="name"></ion-input>
+			</ion-item>
+
+			<ion-item lines="none">
+				<ion-label mode="md" position="floating">{{"email_address" | translate}}</ion-label>
+				<ion-input mode="md" type="email"></ion-input>
+			</ion-item>
+
+			<ion-item lines="none">
+				<ion-label mode="md" position="floating">{{"create_password" | translate}}</ion-label>
+				<ion-input mode="md" type="password"></ion-input>
+			</ion-item>
+
+			<ion-item lines="none">
+				<ion-label mode="md" position="floating">{{"confirm_password" | translate}}</ion-label>
+				<ion-input mode="md" type="password"></ion-input>
+			</ion-item>
+
+			<ion-item lines="none">
+				<ion-label mode="md" position="floating">{{"phone_number" | translate}}</ion-label>
+				<ion-input mode="md" type="number"></ion-input>
+			</ion-item>
+		</ion-list>
+		<ion-button size="large" shape="block" class="btn" (click)="verificaion()">{{'register_now' | translate}}
+		</ion-button>
+	</div>
+	<p class="ion-text-center">
+		{{'we_send_verfication_code_on_adove' | translate}}
+		<br>
+		{{'given_number_to_verify' | translate}}
+	</p>
+</ion-content>

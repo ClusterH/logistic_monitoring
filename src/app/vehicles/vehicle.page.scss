@@ -1,0 +1,114 @@
+ion-header {
+  background: var(--bg-color);
+
+  ion-toolbar {
+    ion-buttons ion-menu-button {
+      font-size: 1.5rem !important;
+      --color: var(--primary) !important;
+    }
+
+    ion-title {
+      position: relative !important;
+      padding-left: 0 !important;
+
+      .title_inner {
+        .location {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+
+          ion-icon {
+            font-size: 1.1rem !important;
+            min-width: 23px;
+            color: var(--primary);
+          }
+
+          h2 {
+            margin: 0;
+            margin-left: 12px;
+            font-size: 1.13rem;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--primary) !important;
+          }
+        }
+      }
+    }
+  }
+
+  .banner {
+    width: calc(100% - 30px);
+    margin: 0 auto;
+    h3 {
+      color: var(--white);
+    }
+
+    .search_box {
+      width: calc(100% - 0px);
+      padding-bottom: 4px;
+      border-bottom: 1px solid #000;
+
+      ion-icon {
+        color: var(--primary);
+        font-size: 1.4rem;
+        min-width: 35px;
+        height: 35px;
+        line-height: 35px;
+        z-index: 99;
+
+        &.zmdi-tune {
+          color: var(--text-light2);
+        }
+      }
+
+      ion-searchbar {
+        --background: var(--transparent) !important;
+        --color: var(--text-light);
+        --placeholder-opacity: 1;
+        --placeholder-font-weight: 500 !important;
+        --box-shadow: none !important;
+      }
+
+      h2 {
+        color: var(--text-light);
+        margin: 0;
+        font-size: 1.15rem !important;
+        font-weight: 500 !important;
+      }
+    }
+  }
+}
+
+ion-content {
+  --background: var(--bg-color-secondary);
+}
+ion-list {
+  background: var(--transparent) !important;
+  margin: 0;
+  padding: 0;
+  padding-top: 20px;
+
+  ion-item {
+    padding: 14px 20px 10px 20px;
+    min-height: unset !important;
+    --inner-padding-end: 0px;
+    --inner-min-height: unset !important;
+    --padding-start: 0;
+    --highligh-color-focused: var(--transparent) !important;
+    margin-bottom: 5px;
+    background: var(--bg-color);
+    --background: var(--transparent);
+    --ripple-color: var(--transparent) !important;
+
+    h3 {
+      margin: 0;
+      color: var(--white);
+      font-size: 1.14rem;
+    }
+
+    ion-radio {
+      --color-checked: var(--primary);
+    }
+  }
+}

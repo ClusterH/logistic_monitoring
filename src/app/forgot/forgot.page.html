@@ -1,0 +1,22 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text="" icon="chevron-back-outline"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            <h2>{{'forgot_password' | translate}} <span>{{'forgot_password_text1' | translate}} <br>{{'forgot_password_text2' | translate}}</span></h2>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg_color">
+    <div class="form">
+        <ion-list lines="none">
+            <ion-item lines="none">
+                <ion-label mode="md" position="floating">{{"enter_your_email_address" | translate}}</ion-label>
+                <ion-input mode="md" type="name"></ion-input>
+            </ion-item>
+        </ion-list>
+        <ion-button size="large" shape="block" class="btn" (click)="location()">{{'submit' | translate}}</ion-button>
+    </div>
+</ion-content>

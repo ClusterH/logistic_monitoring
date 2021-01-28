@@ -1,0 +1,44 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-menu-button></ion-menu-button>
+		</ion-buttons>
+		<ion-title>
+			<div class="title_inner d-flex">
+				<div class="location">
+					<h2>Logistic Monitoring </h2>
+					<img src="assets/imgs/logo_2.png" width="28" height="28	">
+				</div>
+			</div>
+		</ion-title>
+	</ion-toolbar>
+	<div class="banner">
+		<h3 class="d-flex">Route Selector</h3>
+		<div class="search_box d-flex">
+			<ion-icon class="zmdi zmdi-search ion-text-start"></ion-icon>
+			<ion-searchbar class="ion-no-padding" searchIcon="hide" placeholder="" readonly="true">
+			</ion-searchbar>
+		</div>
+	</div>
+</ion-header>
+
+<ion-content class="bg_color" fullscreen>
+	<ion-list lines="none">
+		<ion-item *ngFor="let route of routeList" (click)="onRouteClick(route)">
+			<ion-row class="d-flex">
+				<ion-col size="11">
+					<h3>{{route.name}}</h3>
+				</ion-col>
+				<ion-col size="1" class="ion-text-end d-flex">
+					<ion-icon size="medium" class="zmdi zmdi-caret-right-circle ion-text-end"></ion-icon>
+				</ion-col>
+			</ion-row>
+		</ion-item>
+	</ion-list>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+	<ion-button size="large" shape="full" class="btn" (click)="selectRoute()">
+		New Route
+	</ion-button>
+</ion-footer>
