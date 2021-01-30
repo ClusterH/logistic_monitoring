@@ -30,7 +30,7 @@ export class VehiclePage implements OnInit {
       { id: 14, name: 'FS-14' },
       { id: 15, name: 'FS-15' },
     ];
-    this.selectedVehicle = this.vehicleList[0];
+    this.selectedVehicle = this.vehicleList[0].id;
   }
 
   ngOnInit() {
@@ -48,7 +48,8 @@ export class VehiclePage implements OnInit {
   }
 
   onVehicleClick(vehicle): void {
-    console.log(vehicle);
+    console.log(this.selectedVehicle);
+
   }
 
   selectVehicle() {

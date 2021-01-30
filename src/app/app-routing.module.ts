@@ -31,6 +31,14 @@ const routes: Routes = [
     path: 'title',
     loadChildren: () => import('./title/title.module').then(m => m.TitlePageModule)
   },
+  {
+    path: 'new-route',
+    loadChildren: () => import('./new-route/new-route.module').then( m => m.NewRoutePageModule)
+  },
+  {
+    path: 'check-gps',
+    loadChildren: () => import('./check-gps/check-gps.module').then( m => m.CheckGpsPageModule)
+  },
 ];
 
 @NgModule({

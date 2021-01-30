@@ -1,0 +1,105 @@
+ion-header {
+  background: var(--bg-color);
+
+  ion-toolbar {
+    ion-buttons ion-menu-button {
+      font-size: 1.5rem !important;
+      --color: var(--primary) !important;
+    }
+
+    ion-title {
+      position: relative !important;
+      padding-left: 0 !important;
+
+      .title_inner {
+        .location {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+
+          ion-icon {
+            font-size: 1.1rem !important;
+            min-width: 23px;
+            color: var(--primary);
+          }
+
+          h2 {
+            margin: 0;
+            margin-left: 12px;
+            font-size: 1.13rem;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--primary) !important;
+          }
+        }
+      }
+    }
+  }
+
+  .banner {
+    width: calc(100% - 30px);
+    margin: 0 auto;
+    h3 {
+      color: var(--white);
+    }
+  }
+}
+
+ion-content {
+  --background: var(--bg-color-secondary);
+  .google-autocomplete {
+    padding-top: 12px;
+
+    width: calc(100% - 0px);
+    padding-bottom: 4px;
+    border-bottom: 1px solid #000;
+    .autocomplete-input {
+      width: calc(100% - 0px);
+      height: 40px;
+      border: none !important;
+      border-bottom: 1px solid var(--text-light);
+      outline: none !important;
+      background: var(--transparent) !important;
+      color: var(--text-light2);
+      --placeholder-opacity: 1;
+      --placeholder-font-weight: 500 !important;
+      box-shadow: none !important;
+      &:focus {
+        border: none !important;
+        outline: none !important;
+      }
+    }
+    ion-icon {
+      color: var(--primary);
+      font-size: 1.4rem;
+      min-width: 35px;
+      height: 35px;
+      line-height: 35px;
+      z-index: 99;
+      text-align: center;
+
+      &.zmdi-tune {
+        color: var(--text-light2);
+      }
+    }
+  }
+
+  .date-picker {
+    width: calc(100% - 30px);
+    margin: 0 auto;
+    .date-picker-title {
+      h4 {
+        color: var(--white);
+      }
+    }
+    .custom_box {
+      .item_inner {
+        width: calc(50% - 0px);
+        ion-datetime {
+          color: var(--primary);
+        }
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
 	<ion-split-pane contentId="main-content">
 		<ion-menu contentId="main-content" type="overlay">
 			<ion-header>
-				<div class="profile_box" (click)="my_profile()">
+				<div class="profile_box">
 					<ion-menu-toggle auto-hide="false">
 						<h3>{{"hey" | translate}},</h3>
 						<h2>Sam Smith</h2>
@@ -20,6 +20,17 @@
 								<div class="text_box">
 									<h2>{{ p.title | translate}}</h2>
 									<h3>{{ p.sub_title | translate}}</h3>
+								</div>
+							</div>
+						</ion-item>
+					</ion-menu-toggle>
+					<ion-menu-toggle>
+						<ion-item (click)="logOut()" routerDirection="root" lines="none" detail="false">
+							<div class="item_inner d-flex">
+								<ion-icon slot="start" class="zmdi zmdi-pin-account ion-text-start"></ion-icon>
+								<div class="text_box">
+									<h2>{{ 'logout' | translate}}</h2>
+									<h3>{{ 'User Logout' | translate}}</h3>
 								</div>
 							</div>
 						</ion-item>

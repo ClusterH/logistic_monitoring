@@ -11,16 +11,16 @@
         <ion-list lines="none">
             <ion-item lines="none">
                 <ion-label mode="md" position="floating">{{"email_address" | translate}}</ion-label>
-                <ion-input mode="md" type="email"></ion-input>
+                <ion-input mode="md" type="email" [(ngModel)]="email"></ion-input>
             </ion-item>
 
             <ion-item lines="none">
                 <ion-label mode="md" position="floating">{{"password" | translate}}</ion-label>
-                <ion-input mode="md" type="password"></ion-input>
+                <ion-input mode="md" type="password" [(ngModel)]="password"></ion-input>
                 <h5 slot="end" (click)="forgotpassword()">{{"forgot" | translate}}</h5>
             </ion-item>
         </ion-list>
-        <ion-button size="large" shape="block" class="btn" (click)="location()">{{'login' | translate}}</ion-button>
+        <ion-button size="large" shape="block" class="btn" (click)="logIn()">{{'login' | translate}}</ion-button>
     </div>
 
 

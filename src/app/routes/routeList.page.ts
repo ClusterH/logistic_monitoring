@@ -51,7 +51,7 @@ export class RouteListPage implements OnInit {
   }
 
   selectRoute() {
-
+    this.route.navigate(['./new-route']);
   }
   // restro_info() {
   //   this.route.navigate(['./restro-info']);

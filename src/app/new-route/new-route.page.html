@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="title_inner d-flex">
+        <div class="location">
+          <h2>Logistic Monitoring </h2>
+          <img src="assets/imgs/logo_2.png" width="28" height="28	">
+        </div>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+  <div class="banner">
+    <h3 class="d-flex">New Route</h3>
+  </div>
+</ion-header>
+<ion-content class="bg_color" fullscreen>
+  <div class="google-autocomplete">
+    <div class="d-flex" style="padding: 12px;">
+      <ion-icon class="zmdi zmdi-gps-dot ion-text-start"></ion-icon>
+      <input type="text" class="autocomplete-input sc-ion-input-ios" [(ngModel)]="origin"
+        (keydown.enter)="$event.preventDefault()" placeholder="Your Location" autocorrect="off" autocapitalize="off"
+        spellcheck="off" type="text" #searchOrigin>
+      <ion-icon class="zmdi zmdi-close-circle ion-text-start" (click)="clear('origin')"></ion-icon>
+    </div>
+    <div class="d-flex" style="padding: 12px;">
+      <ion-icon class="zmdi zmdi-pin ion-text-start"></ion-icon>
+      <input type="text" class="autocomplete-input sc-ion-input-ios" [(ngModel)]="destination"
+        (keydown.enter)="$event.preventDefault()" placeholder="Select Destination" autocorrect="off"
+        autocapitalize="off" spellcheck="off" type="text" #searchDest>
+      <ion-icon class="zmdi zmdi-close-circle ion-text-start" (click)="clear('destination')"></ion-icon>
+    </div>
+  </div>
+
+  <div class="date-picker">
+    <div class="date-picker-title d-flex">
+      <h4>Departure</h4>
+    </div>
+    <div class="custom_box d-flex">
+      <div class="item_inner d-flex">
+        <ion-datetime displayFormat="MMM DD, YYYY" placeholder="Select Date" [(ngModel)]="departureDate"></ion-datetime>
+        <ion-icon class="zmdi zmdi-caret-down ion-text-end"></ion-icon>
+      </div>
+      <div class="item_inner d-flex">
+        <ion-datetime class="end" displayFormat="hh:mm a" placeholder="Select Time" [(ngModel)]="departureTime">
+        </ion-datetime>
+        <ion-icon class="zmdi zmdi-caret-down ion-text-end"></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="date-picker">
+    <div class="date-picker-title d-flex">
+      <h4>Duration</h4>
+      <ion-label (click)="openPicker()">{{duration}}</ion-label>
+    </div>
+    <div class="custom_box d-flex">
+      <!-- <div class="item_inner d-flex">
+        <ion-datetime displayFormat="MMM DD, YYYY" placeholder="Select Date" [(ngModel)]="arrivalDate"></ion-datetime>
+        <ion-icon class="zmdi zmdi-caret-down ion-text-end"></ion-icon>
+      </div> -->
+      <!-- <div class="item_inner d-flex">
+        <ion-datetime class="end" displayFormat="hh:mm" max="99:59" placeholder="Select Time" [(ngModel)]="arrivalTime">
+        </ion-datetime>
+        <ion-icon class="zmdi zmdi-caret-down ion-text-end"></ion-icon>
+      </div> -->
+    </div>
+  </div>
+
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-button size="large" shape="full" class="btn" (click)="startRoute()">
+    Start
+  </ion-button>
+</ion-footer>

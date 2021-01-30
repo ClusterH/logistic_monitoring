@@ -32,10 +32,10 @@ export class AppComponent implements OnInit {
       icon: 'zmdi zmdi-pin-drop ion-text-start'
     },
     {
-      title: 'logout',
-      sub_title: 'User Logout',
-      url: '/signin',
-      icon: 'zmdi zmdi-pin-account ion-text-start'
+      title: 'check_gps',
+      sub_title: 'gps_checking',
+      url: '/check-gps',
+      icon: 'zmdi zmdi-gps-dot ion-text-start'
     },
   ];
 
@@ -92,8 +92,9 @@ export class AppComponent implements OnInit {
     window.open("https://bit.ly/cc2_foodish", '_system', 'location=no');
   }
 
-  my_profile() {
-    this.navCtrl.navigateRoot(['./myprofile']);
+  logOut() {
+    localStorage.clear();
+    this.navCtrl.navigateRoot(['./signin']);
   }
 
 }
