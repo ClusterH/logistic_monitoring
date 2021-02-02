@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { ParamService } from '../services';
 
 @Component({
   selector: 'app-check-gps',
@@ -6,10 +10,30 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./check-gps.page.scss'],
 })
 export class CheckGpsPage implements OnInit {
-
-  constructor() { }
+  origin: string;
+  destination: string;
+  constructor(
+    private route: Router,
+    public paramService: ParamService
+  ) { }
 
   ngOnInit() {
+    // this.origin = this.paramService.params.origin;
+    // this.destination = this.paramService.params.dest;
+    this.origin = 'This is the Origin';
+    this.destination = 'This is the Destination';
+  }
+
+  inspection(): void {
+    this.route.navigate(['./inspection']);
+  }
+
+  onClick() {
+    if (!this.paramService.gpsStatus) {
+      // this.route.navigate(['./inspection']);
+    } else {
+
+    }
   }
 
 }

@@ -1,8 +1,16 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { PickerController, IonDatetime, Platform } from "@ionic/angular";
+import { PickerOptions } from "@ionic/core";
 import { MapsAPILoader, AgmMap } from '@agm/core';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+
 import { ToastService } from '../core/toastController/toast.service';
+import { DurationModel } from '../models';
+import { ParamService } from '../services';
 
 declare var google;
 
@@ -14,42 +22,51 @@ declare var google;
 export class NewRoutePage implements OnInit {
   latOrigin: number;
   lngOrigin: number;
+  accuracy: number;
   latDest: number;
   lngDest: number;
   origin: string;
   destination: string;
+  geoencoderOptions: NativeGeocoderOptions = {
+    useLocale: true,
+    maxResults: 5
+  };
   departureDate: string;
   departureTime: string;
-  duration: string;
-
-  dayPicker: any[];
-  hourPicker
-
+  pickerDuration = '2000-01-01T00:00:00.0+03:00';
+  displayDuration: string;
   private geoCoder;
 
   @ViewChild('searchOrigin', { static: false })
   public searchOrigin: ElementRef;
   @ViewChild('searchDest', { static: false })
   public searchDest: ElementRef;
+  @ViewChild('durationPicker', { static: false }) durationPicker: IonDatetime;
 
   constructor(
+    private plt: Platform,
     private mapsAPILoader: MapsAPILoader,
     public ngZone: NgZone,
     private route: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private paramService: ParamService
   ) {
-
+    // this.durationPicker.pickerOptions.columns
+    this.plt.ready().then((res) => {
+      // this.checkGPSPermission();
+    });
   }
 
   ngOnInit() {
     this.departureDate = new Date().toISOString();
     this.departureTime = new Date().toISOString();
+    this.origin = this.paramService.params.origin;
+    this.latOrigin = this.paramService.params.lat;
+    this.lngOrigin = this.paramService.params.lng;
 
     this.mapsAPILoader.load().then(() => {
-      this.setCurrentLocation();
-
+      // this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder;
-
       let autocompleteOrigin = new google.maps.places.Autocomplete(this.searchOrigin.nativeElement, {
         types: ["address"]
       });
@@ -88,39 +105,6 @@ export class NewRoutePage implements OnInit {
     });
   }
 
-  // Get Current Location Coordinates
-  private setCurrentLocation() {
-    if ('geolocation' in navigator) {
-      console.log('========')
-
-      navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position);
-        this.latOrigin = position.coords.latitude;
-        this.lngOrigin = position.coords.longitude;
-        this.getAddress(this.latOrigin, this.lngOrigin);
-      });
-    }
-  }
-
-  getAddress(latitude, longitude) {
-    console.log(latitude, '====', longitude)
-    this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
-      console.log(results);
-      console.log(status);
-      if (status === 'OK') {
-        if (results[0]) {
-          this.origin = results[0].formatted_address;
-          console.log(this.origin);
-        } else {
-          window.alert('No results found');
-        }
-      } else {
-        window.alert('Geocoder failed due to: ' + status);
-      }
-
-    });
-  }
-
   clear(type: string): void {
     if (type === 'origin') {
       this.origin = '';
@@ -130,13 +114,15 @@ export class NewRoutePage implements OnInit {
   }
 
   openPicker(): void {
+    this.durationPicker.open();
+  }
 
+  durationChange(event: any): void {
+    const date = new Date(event.detail.value);
+    this.displayDuration = `${date.getFullYear().toString().slice(-2)}Day ${("00" + date.getHours()).slice(-2)}h ${("00" + date.getMinutes()).slice(-2)}min`;
   }
 
   startRoute(): void {
-    console.log(this.origin);
-    console.log(this.destination);
-    console.log(this.departureDate, this.departureTime);
     const routeData = {
       origin: this.origin,
       destination: this.destination,
@@ -151,6 +137,7 @@ export class NewRoutePage implements OnInit {
       }
     }
 
+    this.paramService.params = { origin: this.origin, dest: this.destination }
     this.route.navigate(['./check-gps']);
   }
 }
@@ -162,8 +149,4 @@ export interface NewRouteSetting {
   departureTime: string;
   arrivalDate: string;
   arrivalTime: string;
-  // latOrigin?: number;
-  // lngOrigin?: number;
-  // latDest?: number;
-  // lngDest?: number;
 }

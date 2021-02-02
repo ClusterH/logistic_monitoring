@@ -1,12 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
-import { CheckGpsPageRoutingModule } from './check-gps-routing.module';
-
-import { CheckGpsPage } from './check-gps.page';
+import { InspectionPageRoutingModule } from './inspection-routing.module';
+import { InspectionPage } from './inspection.page';
 
 @NgModule({
   imports: [
@@ -14,8 +11,8 @@ import { CheckGpsPage } from './check-gps.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    CheckGpsPageRoutingModule
+    InspectionPageRoutingModule
   ],
-  declarations: [CheckGpsPage]
+  declarations: [InspectionPage]
 })
-export class CheckGpsPageModule { }
+export class InspectionPageModule { }

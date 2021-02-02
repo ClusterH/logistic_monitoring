@@ -13,10 +13,55 @@
     </ion-title>
   </ion-toolbar>
   <div class="banner">
-    <h3 class="d-flex">Check GPS</h3>
+    <h3 class="d-flex">Confirm Route Start</h3>
   </div>
 </ion-header>
 
 <ion-content>
+  <ion-list lines="none">
+    <ion-item class="select-all">
+      <ion-label>GPS Status</ion-label>
+      <ion-badge *ngIf="!paramService.gpsStatus" color="danger">Status is Unchecked</ion-badge>
+      <ion-badge *ngIf="paramService.gpsStatus" color="success">Status is Good</ion-badge>
+    </ion-item>
+    <ion-item class="select-all">
+      <ion-label>Routes</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-row class="d-flex">
+        <ion-col size="3">
+          <div class="route-location">From</div>
+        </ion-col>
+        <ion-col size="9">
+          <small class="d-flex">
+            <span>{{origin}}</span>
+          </small>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+    <ion-item>
+      <ion-row class="d-flex">
+        <ion-col size="3">
+          <div class="route-location">To</div>
+        </ion-col>
+        <ion-col size="9">
+          <small class="d-flex">
+            <span>{{destination}}</span>
+          </small>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>
+  <div class="d-flex inspection">
+    <ion-button (click)="inspection()">
+      Inspection
+      <ion-icon slot="end" name="logo-steam"></ion-icon>
+    </ion-button>
+  </div>
 
 </ion-content>
+<ion-footer class="ion-no-border">
+  <ion-button size="large" shape="full" class="btn" (click)="onClick()">
+    Start Route
+  </ion-button>
+</ion-footer>

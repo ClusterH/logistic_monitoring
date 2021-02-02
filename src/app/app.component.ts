@@ -88,9 +88,7 @@ export class AppComponent implements OnInit {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
   }
-  buyAppAction() {
-    window.open("https://bit.ly/cc2_foodish", '_system', 'location=no');
-  }
+
 
   logOut() {
     localStorage.clear();

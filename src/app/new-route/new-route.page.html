@@ -53,19 +53,19 @@
 
   <div class="date-picker">
     <div class="date-picker-title d-flex">
-      <h4>Duration</h4>
-      <ion-label (click)="openPicker()">{{duration}}</ion-label>
+      <h4>Duration <span></span></h4>
     </div>
     <div class="custom_box d-flex">
-      <!-- <div class="item_inner d-flex">
-        <ion-datetime displayFormat="MMM DD, YYYY" placeholder="Select Date" [(ngModel)]="arrivalDate"></ion-datetime>
-        <ion-icon class="zmdi zmdi-caret-down ion-text-end"></ion-icon>
-      </div> -->
-      <!-- <div class="item_inner d-flex">
-        <ion-datetime class="end" displayFormat="hh:mm" max="99:59" placeholder="Select Time" [(ngModel)]="arrivalTime">
+      <div class="item_inner d-flex">
+        <ion-button (click)="openPicker()">{{displayDuration || '00Day 00h 00min'}}</ion-button>
+      </div>
+      <div class="item_inner d-flex" style="display: none;">
+        <ion-datetime #durationPicker class="duration-picker" displayFormat="YY HH:mm" min="2000" max="2199"
+          pickerFormat="" value="2000-00-00T00:00" placeholder="" [(ngModel)]="pickerDuration"
+          (ionChange)="durationChange($event)">
         </ion-datetime>
         <ion-icon class="zmdi zmdi-caret-down ion-text-end"></ion-icon>
-      </div> -->
+      </div>
     </div>
   </div>
 

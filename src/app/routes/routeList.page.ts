@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+import { ParamService } from '../services';
 @Component({
   selector: 'app-routeList',
   templateUrl: './routeList.page.html',
@@ -11,7 +15,26 @@ export class RouteListPage implements OnInit {
   routeList: any[];
   selectedRoute: any;
 
-  constructor(private route: Router, public menuCtrl: MenuController) {
+  latOrigin: number;
+  lngOrigin: number;
+  accuracy: number;
+  origin: string;
+  geoencoderOptions: NativeGeocoderOptions = {
+    useLocale: true,
+    maxResults: 5
+  };
+
+  gpsflg = false;
+
+  constructor(
+    private route: Router,
+    public menuCtrl: MenuController,
+    private geolocation: Geolocation,
+    private nativeGeocoder: NativeGeocoder,
+    private androidPermissions: AndroidPermissions,
+    private locationAccuracy: LocationAccuracy,
+    private paramService: ParamService
+  ) {
     this.menuCtrl.enable(true);
     this.routeList = [
       { id: 1, name: 'ROUTE-01' },
@@ -36,24 +59,111 @@ export class RouteListPage implements OnInit {
   ngOnInit() {
   }
 
-  //  refine() {
-  //     this.route.navigate(['./refine']);
-  //   }
-  //  cart() {
-  //     this.route.navigate(['./cart']);
-  //   }
-  search() {
-    this.route.navigate(['./search']);
-  }
-
   onRouteClick(route): void {
     console.log(route);
+    this.paramService.params = { origin: 'Route Origin', dest: 'Route Destination' };
+    this.route.navigate(['./check-gps']);
   }
 
   selectRoute() {
+    this.paramService.params = { origin: 'test', lat: 0, lng: 0 };
     this.route.navigate(['./new-route']);
+    // this.checkGPSPermission()
   }
-  // restro_info() {
-  //   this.route.navigate(['./restro-info']);
-  // }
+
+  checkGPSPermission() {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
+      result => {
+        if (result.hasPermission) {
+          //If having permission show 'Turn On GPS' dialogue
+          this.askToTurnOnGPS();
+        } else {
+          //If not having permission ask for permission
+          this.requestGPSPermission();
+        }
+      },
+      err => {
+        alert(err);
+      }
+    );
+  }
+
+  requestGPSPermission() {
+    this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+      if (canRequest) {
+        console.log("4");
+      } else {
+        //Show 'GPS Permission Request' dialogue
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+          .then(
+            () => {
+              // call method to turn on GPS
+              this.askToTurnOnGPS();
+            },
+            error => {
+              //Show alert if user click on 'No Thanks'
+              alert('requestPermission Error requesting location permissions ' + error)
+            }
+          );
+      }
+    });
+  }
+
+  askToTurnOnGPS() {
+    this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
+      () => {
+        // When GPS Turned ON call method to get Accurate location coordinates
+        this.gpsflg = true;
+        this.getGeolocation()
+      },
+      error => alert('Error requesting location permissions ' + JSON.stringify(error))
+    );
+  }
+
+
+  //Get current coordinates of device
+  getGeolocation() {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      console.log(resp);
+      this.latOrigin = resp.coords.latitude;
+      this.lngOrigin = resp.coords.longitude;
+      this.accuracy = resp.coords.accuracy;
+
+      this.getGeoencoder(resp.coords.latitude, resp.coords.longitude);
+
+    }).catch((error) => {
+      alert('Error getting location' + JSON.stringify(error));
+    });
+  }
+
+  //geocoder method to fetch address from coordinates passed as arguments
+  getGeoencoder(latitude, longitude) {
+    this.nativeGeocoder.reverseGeocode(latitude, longitude, this.geoencoderOptions)
+      .then((result: NativeGeocoderResult[]) => {
+        console.log(result);
+        this.origin = this.generateAddress(result[0]);
+        this.paramService.params = { origin: this.origin, lat: this.latOrigin, lng: this.lngOrigin };
+        this.route.navigate(['./new-route']);
+      })
+      .catch((error: any) => {
+        alert('Error getting location' + JSON.stringify(error));
+      });
+  }
+
+  //Return Comma saperated address
+  generateAddress(addressObj) {
+    console.log(addressObj);
+    let obj = [];
+    let address = "";
+    for (let key in addressObj) {
+      obj.push(addressObj[key]);
+    }
+    obj.reverse();
+    for (let val in obj) {
+      if (obj[val].length)
+        address += obj[val] + ', ';
+    }
+    console.log(address);
+    return address.slice(0, -2);
+  }
 }

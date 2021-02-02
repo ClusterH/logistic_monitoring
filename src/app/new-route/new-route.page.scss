@@ -91,13 +91,24 @@ ion-content {
     .date-picker-title {
       h4 {
         color: var(--white);
+        span {
+          color: var(--text-light);
+          font-size: small;
+        }
       }
     }
     .custom_box {
       .item_inner {
-        width: calc(50% - 0px);
         ion-datetime {
           color: var(--primary);
+        }
+        .duration-picker {
+          display: none;
+        }
+        ion-button {
+          color: var(--primary);
+          --background: transparent;
+          text-transform: none;
         }
       }
     }

@@ -9,45 +9,36 @@ import { MenuController } from '@ionic/angular';
 })
 export class VehiclePage implements OnInit {
   vehicleList: any[];
-  selectedVehicle: any = null;
+  selectedVehicle: string;
 
   constructor(private route: Router, public menuCtrl: MenuController) {
     this.menuCtrl.enable(true);
     this.vehicleList = [
-      { id: 1, name: 'FS-01' },
-      { id: 2, name: 'FS-02' },
-      { id: 3, name: 'FS-03' },
-      { id: 4, name: 'FS-04' },
-      { id: 5, name: 'FS-05' },
-      { id: 6, name: 'FS-06' },
-      { id: 7, name: 'FS-07' },
-      { id: 8, name: 'FS-08' },
-      { id: 9, name: 'FS-09' },
-      { id: 10, name: 'FS-10' },
-      { id: 11, name: 'FS-11' },
-      { id: 12, name: 'FS-12' },
-      { id: 13, name: 'FS-13' },
-      { id: 14, name: 'FS-14' },
-      { id: 15, name: 'FS-15' },
+      { id: 1, name: 'FS-01', checked: false },
+      { id: 2, name: 'FS-02', checked: true },
+      { id: 3, name: 'FS-03', checked: false },
+      { id: 4, name: 'FS-04', checked: false },
+      { id: 5, name: 'FS-05', checked: false },
+      { id: 6, name: 'FS-06', checked: false },
+      { id: 7, name: 'FS-07', checked: false },
+      { id: 8, name: 'FS-08', checked: false },
+      { id: 9, name: 'FS-09', checked: false },
+      { id: 10, name: 'FS-10', checked: false },
+      { id: 11, name: 'FS-11', checked: false },
+      { id: 12, name: 'FS-12', checked: false },
+      { id: 13, name: 'FS-13', checked: false },
+      { id: 14, name: 'FS-14', checked: false },
+      { id: 15, name: 'FS-15', checked: false },
     ];
-    this.selectedVehicle = this.vehicleList[0].id;
+    this.selectedVehicle = '1';
   }
 
   ngOnInit() {
     console.log(this.selectedVehicle);
   }
 
-  //  refine() {
-  //     this.route.navigate(['./refine']);
-  //   }
-  //  cart() {
-  //     this.route.navigate(['./cart']);
-  //   }
-  search() {
-    this.route.navigate(['./search']);
-  }
-
   onVehicleClick(vehicle): void {
+    this.selectedVehicle = vehicle.id.toString();
     console.log(this.selectedVehicle);
 
   }
@@ -59,7 +50,4 @@ export class VehiclePage implements OnInit {
 
     this.route.navigate(['./route']);
   }
-  // restro_info() {
-  //   this.route.navigate(['./restro-info']);
-  // }
 }

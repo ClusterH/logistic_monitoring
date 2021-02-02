@@ -28,7 +28,7 @@
 			<ion-item *ngFor="let vehicle of vehicleList" (click)="onVehicleClick(vehicle)">
 				<div class="item_inner d-flex">
 					<h3>{{vehicle.name}}</h3>
-					<ion-radio class="end" value="{{vehicle.id}}"></ion-radio>
+					<ion-radio class="end" value="{{'' + vehicle.id}}"></ion-radio>
 				</div>
 			</ion-item>
 		</ion-radio-group>

@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="title_inner d-flex">
+        <div class="location">
+          <h2>Logistic Monitoring </h2>
+          <img src="assets/imgs/logo_2.png" width="28" height="28	">
+        </div>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+  <div class="banner">
+    <h3 class="d-flex">Inspection</h3>
+  </div>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="none">
+    <ion-item class="select-all">
+      <ion-label>GPS Status</ion-label>
+      <ion-checkbox [(ngModel)]="isSelectAll" [indeterminate]="isIndeterminate" (click)="checkMaster($event)">
+      </ion-checkbox>
+    </ion-item>
+    <ion-item *ngFor="let item of statusList">
+      <ion-label>{{item.value}}</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="item.isChecked" (ionChange)="checkEvent()"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+</ion-content>
