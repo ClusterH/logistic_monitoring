@@ -66,9 +66,9 @@ export class RouteListPage implements OnInit {
   }
 
   selectRoute() {
-    this.paramService.params = { origin: 'test', lat: 0, lng: 0 };
-    this.route.navigate(['./new-route']);
-    // this.checkGPSPermission()
+    // this.paramService.params = { origin: 'test', lat: 0, lng: 0 };
+    // this.route.navigate(['./new-route']);
+    this.checkGPSPermission()
   }
 
   checkGPSPermission() {

@@ -37,6 +37,12 @@ export class AppComponent implements OnInit {
       url: '/check-gps',
       icon: 'zmdi zmdi-gps-dot ion-text-start'
     },
+    {
+      title: 'hazard_report',
+      sub_title: 'hazard_report',
+      url: '/hazard-report',
+      icon: 'zmdi zmdi-gps-dot ion-text-start'
+    },
   ];
 
   constructor(

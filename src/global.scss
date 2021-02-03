@@ -488,6 +488,19 @@ app-bookmark {
   }
 }
 
+.action-sheet-group.sc-ion-action-sheet-md {
+  background-color: black;
+  .action-sheet-button.sc-ion-action-sheet-md {
+    color: var(--white);
+  }
+  .action-sheet-selected.sc-ion-action-sheet-md {
+    color: var(--primary);
+  }
+  .action-sheet-button.action-sheet-cancel.sc-ion-action-sheet-md {
+    border-top: 1px solid var(--text-light);
+  }
+}
+
 ion-app[dir="rtl"] {
   //	ion-header ion-toolbar ion-title {
   //		padding-right: 0 !important;

@@ -85,6 +85,11 @@ ion-content {
     }
   }
 
+  ion-button {
+    width: calc(100% - 64px);
+    margin: 0px 32px;
+  }
+
   .date-picker {
     width: calc(100% - 30px);
     margin: 0 auto;

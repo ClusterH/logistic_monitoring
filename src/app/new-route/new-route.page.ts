@@ -12,7 +12,7 @@ import { ToastService } from '../core/toastController/toast.service';
 import { DurationModel } from '../models';
 import { ParamService } from '../services';
 
-declare var google;
+// declare var google;
 
 @Component({
   selector: 'app-new-route',
@@ -111,6 +111,42 @@ export class NewRoutePage implements OnInit {
     } else {
       this.destination = '';
     }
+  }
+
+  calcDuration(): void {
+    const directionsService = new google.maps.DirectionsService;
+    let distance = 0;
+    let duration = 0;
+    setTimeout(() => {
+      directionsService.route({
+        origin: { lat: this.latOrigin, lng: this.lngOrigin },
+        destination: { lat: this.latDest, lng: this.lngDest },
+        waypoints: [],
+        optimizeWaypoints: true,
+        travelMode: google.maps.TravelMode.DRIVING
+      }, (response, status) => {
+        console.log(response);
+        if (status == 'OK') {
+          distance = response.routes[0].legs[0].distance.value;
+          duration = response.routes[0].legs[0].duration.value;
+          this.pickerDuration = this.calcDurationBystring(duration);
+        } else {
+          alert('Distance request failed due to ' + status);
+        }
+      });
+    }, 1000)
+  }
+
+  calcDurationBystring(duration: number): string {
+    const day = Math.floor(duration / 86400);
+    const hours = Math.floor((duration - day * 86400) / 3600);
+    const min = Math.floor((duration - day * 86400 - hours * 3600) / 60);
+    // console.log('day===>>>', day);
+    // console.log('hour===>>>', hours);
+    // console.log('min===>>>', min);
+    // console.log(`20${("00" + day).slice(-2)}-01-01T${("00" + hours).slice(-2)}:${("00" + min).slice(-2)}:00.0+03:00`);
+    const durationString = `20${("00" + day).slice(-2)}-01-01T${("00" + hours).slice(-2)}:${("00" + min).slice(-2)}:00.0+03:00`
+    return durationString;
   }
 
   openPicker(): void {
