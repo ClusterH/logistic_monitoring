@@ -29,11 +29,8 @@ export class CheckGpsPage implements OnInit {
   }
 
   onClick() {
-    if (!this.paramService.gpsStatus) {
-      // this.route.navigate(['./inspection']);
-    } else {
+    this.route.navigate(['./onroute']);
 
-    }
   }
 
 }

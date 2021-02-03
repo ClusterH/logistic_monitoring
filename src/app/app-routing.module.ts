@@ -43,6 +43,14 @@ const routes: Routes = [
     path: 'inspection',
     loadChildren: () => import('./inspection/inspection.module').then( m => m.InspectionPageModule)
   },
+  {
+    path: 'onroute',
+    loadChildren: () => import('./onroute/onroute.module').then( m => m.OnroutePageModule)
+  },
+  {
+    path: 'hazard-report',
+    loadChildren: () => import('./hazard-report/hazard-report.module').then( m => m.HazardReportPageModule)
+  },
 ];
 
 @NgModule({
