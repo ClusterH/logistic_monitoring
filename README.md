@@ -1,2 +1,2 @@
 # logistic_monitoring
-Ionic/Angular Google Map Route Monitoring App
+Ionic/Angular Vehicle Routes Monitoring App
