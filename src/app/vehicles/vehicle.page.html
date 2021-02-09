@@ -23,7 +23,7 @@
 </ion-header>
 
 <ion-content class="bg_color" fullscreen>
-	<ion-list lines="none">
+	<ion-list lines="none" *ngIf="vehicleList && vehicleList.length > 0">
 		<ion-radio-group [(ngModel)]="selectedVehicle">
 			<ion-item *ngFor="let vehicle of vehicleList" (click)="onVehicleClick(vehicle)">
 				<div class="item_inner d-flex">

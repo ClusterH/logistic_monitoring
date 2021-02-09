@@ -706,3 +706,9 @@ ion-app[dir="rtl"] {
     padding: 12px 16px 12px 6px !important;
   }
 }
+
+.custom-loader-class {
+  --background: #282a3542;
+  --spinner-color: var(--primary);
+  transform: scale(2);
+}

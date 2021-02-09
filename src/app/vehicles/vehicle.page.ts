@@ -1,53 +1,67 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
+import { Subject, Observable, of } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { VehicleService } from '../services';
+import { MyEvent } from 'src/services/myevent.services';
 
 @Component({
   selector: 'app-vehicle',
   templateUrl: './vehicle.page.html',
   styleUrls: ['./vehicle.page.scss'],
 })
-export class VehiclePage implements OnInit {
-  vehicleList: any[];
-  selectedVehicle: string;
+export class VehiclePage implements OnInit, OnDestroy {
+  driverId: number;
+  vehicleList = [];
+  selectedVehicle: string = '';
+  private _unsubscribeAll: Subject<any>;
 
-  constructor(private route: Router, public menuCtrl: MenuController) {
+  constructor(
+    private route: Router,
+    public menuCtrl: MenuController,
+    private storage: Storage,
+    private vehicleService: VehicleService,
+    private myeventService: MyEvent
+  ) {
     this.menuCtrl.enable(true);
-    this.vehicleList = [
-      { id: 1, name: 'FS-01', checked: false },
-      { id: 2, name: 'FS-02', checked: true },
-      { id: 3, name: 'FS-03', checked: false },
-      { id: 4, name: 'FS-04', checked: false },
-      { id: 5, name: 'FS-05', checked: false },
-      { id: 6, name: 'FS-06', checked: false },
-      { id: 7, name: 'FS-07', checked: false },
-      { id: 8, name: 'FS-08', checked: false },
-      { id: 9, name: 'FS-09', checked: false },
-      { id: 10, name: 'FS-10', checked: false },
-      { id: 11, name: 'FS-11', checked: false },
-      { id: 12, name: 'FS-12', checked: false },
-      { id: 13, name: 'FS-13', checked: false },
-      { id: 14, name: 'FS-14', checked: false },
-      { id: 15, name: 'FS-15', checked: false },
-    ];
-    this.selectedVehicle = '1';
+    this._unsubscribeAll = new Subject();
+
   }
 
   ngOnInit() {
-    console.log(this.selectedVehicle);
+    console.log('vehicleCompo onInit===>>>');
+
+    this.myeventService.getUserAuth().subscribe(res => {
+      console.log('vehicleCompo getUser===>>>', res);
+      this.driverId = res.userID;
+      this.vehicleService.getDriverVehicles(this.driverId).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
+        console.log(res);
+        this.vehicleList = [...res.TrackingXLAPI.DATA];
+        this.selectedVehicle = this.vehicleList[0].id.toString();
+      })
+    });
+  }
+
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
   }
 
   onVehicleClick(vehicle): void {
     this.selectedVehicle = vehicle.id.toString();
-    console.log(this.selectedVehicle);
-
+    console.log('selected===>>', this.selectedVehicle);
+    this.vehicleService.selectDriver(this.driverId, vehicle.id).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
+      console.log(res);
+    });
   }
 
   selectVehicle() {
     if (this.selectedVehicle === null) {
       return;
     }
-
+    this.myeventService.setUnitId(+this.selectedVehicle);
     this.route.navigate(['./route']);
   }
 }

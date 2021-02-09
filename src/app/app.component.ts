@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { NavController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 import { TranslateService } from '@ngx-translate/core';
 import { APP_CONFIG, AppConfig } from './app.config';
@@ -43,6 +44,12 @@ export class AppComponent implements OnInit {
       url: '/hazard-report',
       icon: 'zmdi zmdi-gps-dot ion-text-start'
     },
+    {
+      title: 'periodic_report',
+      sub_title: 'periodic_report',
+      url: '/periodic-report',
+      icon: 'zmdi zmdi-gps-dot ion-text-start'
+    },
   ];
 
   constructor(
@@ -50,6 +57,7 @@ export class AppComponent implements OnInit {
     private platform: Platform, private navCtrl: NavController,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
+    private storage: Storage,
     private translate: TranslateService, private myEvent: MyEvent) {
     this.initializeApp();
     this.myEvent.getLanguageObservable().subscribe(value => {
@@ -97,6 +105,7 @@ export class AppComponent implements OnInit {
 
 
   logOut() {
+    this.storage.clear();
     localStorage.clear();
     this.navCtrl.navigateRoot(['./signin']);
   }

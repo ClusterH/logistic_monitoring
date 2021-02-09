@@ -5,13 +5,19 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
-import { ParamService } from '../services';
+import { ParamService, LoaderService, RouteService } from '../services';
+import { MyEvent } from 'src/services/myevent.services';
+import { Subject, Observable, of } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Route } from '@angular/compiler/src/core';
+
 @Component({
   selector: 'app-routeList',
   templateUrl: './routeList.page.html',
   styleUrls: ['./routeList.page.scss'],
 })
 export class RouteListPage implements OnInit {
+  driverId: number;
   routeList: any[];
   selectedRoute: any;
 
@@ -26,6 +32,9 @@ export class RouteListPage implements OnInit {
 
   gpsflg = false;
 
+  private _unsubscribeAll: Subject<any>;
+
+
   constructor(
     private route: Router,
     public menuCtrl: MenuController,
@@ -33,30 +42,48 @@ export class RouteListPage implements OnInit {
     private nativeGeocoder: NativeGeocoder,
     private androidPermissions: AndroidPermissions,
     private locationAccuracy: LocationAccuracy,
-    private paramService: ParamService
+    private paramService: ParamService,
+    private loadingService: LoaderService,
+    private routeService: RouteService,
+    private myeventService: MyEvent
   ) {
     this.menuCtrl.enable(true);
-    this.routeList = [
-      { id: 1, name: 'ROUTE-01' },
-      { id: 2, name: 'ROUTE-02' },
-      { id: 3, name: 'ROUTE-03' },
-      { id: 4, name: 'ROUTE-04' },
-      { id: 5, name: 'ROUTE-05' },
-      { id: 6, name: 'ROUTE-06' },
-      { id: 7, name: 'ROUTE-07' },
-      { id: 8, name: 'ROUTE-08' },
-      { id: 9, name: 'ROUTE-09' },
-      { id: 10, name: 'ROUTE-10' },
-      { id: 11, name: 'ROUTE-11' },
-      { id: 12, name: 'ROUTE-12' },
-      { id: 13, name: 'ROUTE-13' },
-      { id: 14, name: 'ROUTE-14' },
-      { id: 15, name: 'ROUTE-15' },
-    ];
-    this.selectedRoute = this.routeList[0];
+    this._unsubscribeAll = new Subject();
+
+    // this.routeList = [
+    //   { id: 1, name: 'ROUTE-01' },
+    //   { id: 2, name: 'ROUTE-02' },
+    //   { id: 3, name: 'ROUTE-03' },
+    //   { id: 4, name: 'ROUTE-04' },
+    //   { id: 5, name: 'ROUTE-05' },
+    //   { id: 6, name: 'ROUTE-06' },
+    //   { id: 7, name: 'ROUTE-07' },
+    //   { id: 8, name: 'ROUTE-08' },
+    //   { id: 9, name: 'ROUTE-09' },
+    //   { id: 10, name: 'ROUTE-10' },
+    //   { id: 11, name: 'ROUTE-11' },
+    //   { id: 12, name: 'ROUTE-12' },
+    //   { id: 13, name: 'ROUTE-13' },
+    //   { id: 14, name: 'ROUTE-14' },
+    //   { id: 15, name: 'ROUTE-15' },
+    // ];
+    // this.selectedRoute = this.routeList[0];
   }
 
   ngOnInit() {
+    this.myeventService.getUserAuth().subscribe(res => {
+      console.log('vehicleCompo getUser===>>>', res);
+      this.driverId = res.userID;
+      this.routeService.getDriverRoutes(this.driverId).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
+        console.log(res);
+        this.routeList = [...res.TrackingXLAPI.DATA];
+      })
+    });
+  }
+
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
   }
 
   onRouteClick(route): void {
@@ -68,7 +95,8 @@ export class RouteListPage implements OnInit {
   selectRoute() {
     // this.paramService.params = { origin: 'test', lat: 0, lng: 0 };
     // this.route.navigate(['./new-route']);
-    this.checkGPSPermission()
+
+    this.checkGPSPermission();
   }
 
   checkGPSPermission() {
@@ -91,7 +119,6 @@ export class RouteListPage implements OnInit {
   requestGPSPermission() {
     this.locationAccuracy.canRequest().then((canRequest: boolean) => {
       if (canRequest) {
-        console.log("4");
       } else {
         //Show 'GPS Permission Request' dialogue
         this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
@@ -114,7 +141,8 @@ export class RouteListPage implements OnInit {
       () => {
         // When GPS Turned ON call method to get Accurate location coordinates
         this.gpsflg = true;
-        this.getGeolocation()
+        this.loadingService.showLoader('Please wait...');
+        this.getGeolocation();
       },
       error => alert('Error requesting location permissions ' + JSON.stringify(error))
     );
@@ -124,7 +152,6 @@ export class RouteListPage implements OnInit {
   //Get current coordinates of device
   getGeolocation() {
     this.geolocation.getCurrentPosition().then((resp) => {
-      console.log(resp);
       this.latOrigin = resp.coords.latitude;
       this.lngOrigin = resp.coords.longitude;
       this.accuracy = resp.coords.accuracy;
@@ -143,9 +170,13 @@ export class RouteListPage implements OnInit {
         console.log(result);
         this.origin = this.generateAddress(result[0]);
         this.paramService.params = { origin: this.origin, lat: this.latOrigin, lng: this.lngOrigin };
-        this.route.navigate(['./new-route']);
+        this.loadingService.hideLoader();
+        setTimeout(() => {
+          this.route.navigate(['./new-route']);
+        }, 500)
       })
       .catch((error: any) => {
+        this.loadingService.hideLoader();
         alert('Error getting location' + JSON.stringify(error));
       });
   }

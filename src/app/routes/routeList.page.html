@@ -23,7 +23,7 @@
 </ion-header>
 
 <ion-content class="bg_color" fullscreen>
-	<ion-list lines="none">
+	<ion-list lines="none" *ngIf="routeList && routeList.length > 0">
 		<ion-item *ngFor="let route of routeList" (click)="onRouteClick(route)">
 			<ion-row class="d-flex">
 				<ion-col size="11">

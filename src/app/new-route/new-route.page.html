@@ -20,14 +20,14 @@
   <div class="google-autocomplete">
     <div class="d-flex" style="padding: 12px;">
       <ion-icon class="zmdi zmdi-gps-dot ion-text-start"></ion-icon>
-      <input type="text" class="autocomplete-input sc-ion-input-ios" [(ngModel)]="origin"
+      <input type="text" class="autocomplete-input sc-ion-input-ios" [(ngModel)]="newTrip.origen"
         (keydown.enter)="$event.preventDefault()" placeholder="Your Location" autocorrect="off" autocapitalize="off"
         spellcheck="off" type="text" #searchOrigin>
       <ion-icon class="zmdi zmdi-close-circle ion-text-start" (click)="clear('origin')"></ion-icon>
     </div>
     <div class="d-flex" style="padding: 12px;">
       <ion-icon class="zmdi zmdi-pin ion-text-start"></ion-icon>
-      <input type="text" class="autocomplete-input sc-ion-input-ios" [(ngModel)]="destination"
+      <input type="text" class="autocomplete-input sc-ion-input-ios" [(ngModel)]="newTrip.destination"
         (keydown.enter)="$event.preventDefault()" placeholder="Select Destination" autocorrect="off"
         autocapitalize="off" spellcheck="off" type="text" #searchDest>
       <ion-icon class="zmdi zmdi-close-circle ion-text-start" (click)="clear('destination')"></ion-icon>
@@ -63,8 +63,7 @@
       </div>
       <div class="item_inner d-flex" style="display: none;">
         <ion-datetime #durationPicker class="duration-picker" displayFormat="YY HH:mm" min="2000" max="2199"
-          pickerFormat="" value="2000-00-00T00:00" placeholder="" [(ngModel)]="pickerDuration"
-          (ionChange)="durationChange($event)">
+          pickerFormat="" placeholder="" [(ngModel)]="pickerDuration" (ionChange)="durationChange($event)">
         </ion-datetime>
         <ion-icon class="zmdi zmdi-caret-down ion-text-end"></ion-icon>
       </div>

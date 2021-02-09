@@ -1,41 +1,41 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { take, takeUntil } from 'rxjs/operators';
+import { MapsAPILoader } from '@agm/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { PickerController, IonDatetime, Platform } from "@ionic/angular";
-import { PickerOptions } from "@ionic/core";
-import { MapsAPILoader, AgmMap } from '@agm/core';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
-
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
+import { IonDatetime, Platform } from "@ionic/angular";
 import { ToastService } from '../core/toastController/toast.service';
-import { DurationModel } from '../models';
-import { ParamService } from '../services';
-
-// declare var google;
+import { ParamService, LoaderService, RouteService } from '../services';
+import { NewTripModel } from '../models';
+import { MyEvent } from '../../services/myevent.services';
+import { Subject, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-new-route',
   templateUrl: './new-route.page.html',
   styleUrls: ['./new-route.page.scss'],
 })
-export class NewRoutePage implements OnInit {
-  latOrigin: number;
-  lngOrigin: number;
-  accuracy: number;
-  latDest: number;
-  lngDest: number;
-  origin: string;
-  destination: string;
+export class NewRoutePage implements OnInit, OnDestroy {
+  newTrip: NewTripModel = {};
+  // latOrigin: number;
+  // lngOrigin: number;
+  // accuracy: number;
+  // latDest: number;
+  // lngDest: number;
+  // origin: string;
+  // destination: string;
   geoencoderOptions: NativeGeocoderOptions = {
     useLocale: true,
     maxResults: 5
   };
   departureDate: string;
   departureTime: string;
-  pickerDuration = '2000-01-01T00:00:00.0+03:00';
+  pickerDuration = '2000-01-05T00:00:00';
   displayDuration: string;
   private geoCoder;
+
+  private _unsubscribeAll: Subject<any>;
 
   @ViewChild('searchOrigin', { static: false })
   public searchOrigin: ElementRef;
@@ -49,20 +49,27 @@ export class NewRoutePage implements OnInit {
     public ngZone: NgZone,
     private route: Router,
     private toastService: ToastService,
-    private paramService: ParamService
+    private paramService: ParamService,
+    private loadingService: LoaderService,
+    private routeService: RouteService,
+    private myEventService: MyEvent
   ) {
-    // this.durationPicker.pickerOptions.columns
-    this.plt.ready().then((res) => {
-      // this.checkGPSPermission();
-    });
+    this._unsubscribeAll = new Subject();
   }
 
   ngOnInit() {
     this.departureDate = new Date().toISOString();
     this.departureTime = new Date().toISOString();
-    this.origin = this.paramService.params.origin;
-    this.latOrigin = this.paramService.params.lat;
-    this.lngOrigin = this.paramService.params.lng;
+    this.newTrip.origen = this.paramService.params.origin;
+    this.newTrip.fromlatitude = this.paramService.params.lat;
+    this.newTrip.fromlongitude = this.paramService.params.lng;
+
+    // this.newTrip.origen = this.paramService.params.origin;
+    // this.newTrip.fromlatitude = this.paramService.params.lat;
+    // this.newTrip.fromlongitude = this.paramService.params.lng;
+    // this.newTrip.origen = 'Test Origin';
+    // this.newTrip.fromlatitude = 0;
+    // this.newTrip.fromlongitude = 0;
 
     this.mapsAPILoader.load().then(() => {
       // this.setCurrentLocation();
@@ -83,9 +90,9 @@ export class NewRoutePage implements OnInit {
             return;
           }
           //set latitude, longitude and zoom
-          this.latOrigin = place.geometry.location.lat();
-          this.lngOrigin = place.geometry.location.lng();
-          this.origin = place.formatted_address;
+          this.newTrip.fromlatitude = place.geometry.location.lat();
+          this.newTrip.fromlongitude = place.geometry.location.lng();
+          this.newTrip.origen = place.formatted_address;
         });
       });
       autocompleteDest.addListener("place_changed", () => {
@@ -97,55 +104,66 @@ export class NewRoutePage implements OnInit {
             return;
           }
           //set latitude, longitude and zoom
-          this.latDest = place.geometry.location.lat();
-          this.lngDest = place.geometry.location.lng();
-          this.destination = place.formatted_address;
+          this.newTrip.tolatitude = place.geometry.location.lat();
+          this.newTrip.tolongitude = place.geometry.location.lng();
+          this.newTrip.destination = place.formatted_address;
         });
       });
     });
   }
 
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
+  }
+
   clear(type: string): void {
     if (type === 'origin') {
-      this.origin = '';
+      this.newTrip.origen = '';
     } else {
-      this.destination = '';
+      this.newTrip.destination = '';
     }
   }
 
   calcDuration(): void {
+    if (this.newTrip.origen === '' || this.newTrip.destination === '' || this.newTrip.destination === undefined) {
+      this.toastService.showToast('danger', `Please Check Origin and Destination`);
+      return;
+    }
+
     const directionsService = new google.maps.DirectionsService;
     let distance = 0;
     let duration = 0;
-    setTimeout(() => {
-      directionsService.route({
-        origin: { lat: this.latOrigin, lng: this.lngOrigin },
-        destination: { lat: this.latDest, lng: this.lngDest },
-        waypoints: [],
-        optimizeWaypoints: true,
-        travelMode: google.maps.TravelMode.DRIVING
-      }, (response, status) => {
-        console.log(response);
-        if (status == 'OK') {
-          distance = response.routes[0].legs[0].distance.value;
-          duration = response.routes[0].legs[0].duration.value;
-          this.pickerDuration = this.calcDurationBystring(duration);
-        } else {
-          alert('Distance request failed due to ' + status);
-        }
-      });
-    }, 1000)
+    this.loadingService.showLoader('Please wait...!');
+
+    // setTimeout(() => {
+    directionsService.route({
+      origin: { lat: this.newTrip.fromlatitude, lng: this.newTrip.fromlongitude },
+      destination: { lat: this.newTrip.tolatitude, lng: this.newTrip.tolongitude },
+      waypoints: [],
+      optimizeWaypoints: true,
+      travelMode: google.maps.TravelMode.DRIVING
+    }, (response, status) => {
+      console.log(response);
+      if (status == 'OK') {
+        distance = response.routes[0].legs[0].distance.value;
+        duration = response.routes[0].legs[0].duration.value;
+        this.pickerDuration = this.calcDurationBystring(duration);
+        this.loadingService.hideLoader();
+      } else {
+        this.loadingService.hideLoader();
+        alert('Distance request failed due to ' + status);
+      }
+    });
+    // }, 1000)
   }
 
   calcDurationBystring(duration: number): string {
+    this.newTrip.eta = Math.floor(duration / 60);
     const day = Math.floor(duration / 86400);
     const hours = Math.floor((duration - day * 86400) / 3600);
     const min = Math.floor((duration - day * 86400 - hours * 3600) / 60);
-    // console.log('day===>>>', day);
-    // console.log('hour===>>>', hours);
-    // console.log('min===>>>', min);
-    // console.log(`20${("00" + day).slice(-2)}-01-01T${("00" + hours).slice(-2)}:${("00" + min).slice(-2)}:00.0+03:00`);
-    const durationString = `20${("00" + day).slice(-2)}-01-01T${("00" + hours).slice(-2)}:${("00" + min).slice(-2)}:00.0+03:00`
+    const durationString = `20${("00" + day).slice(-2)}-01-05T${("00" + hours).slice(-2)}:${("00" + min).slice(-2)}:00`;
     return durationString;
   }
 
@@ -155,26 +173,42 @@ export class NewRoutePage implements OnInit {
 
   durationChange(event: any): void {
     const date = new Date(event.detail.value);
+    this.newTrip.eta = date.getMinutes();
+
     this.displayDuration = `${date.getFullYear().toString().slice(-2)}Day ${("00" + date.getHours()).slice(-2)}h ${("00" + date.getMinutes()).slice(-2)}min`;
   }
 
   startRoute(): void {
+    this.loadingService.showLoader('Please wait...');
+
     const routeData = {
-      origin: this.origin,
-      destination: this.destination,
+      origin: this.newTrip.origen,
+      destination: this.newTrip.destination,
       departureDate: this.departureDate,
       departureTime: this.departureTime,
     }
 
     for (let item in routeData) {
       if (!routeData[item]) {
+        this.loadingService.hideLoader();
         this.toastService.showToast('danger', `Please select ${item}`);
         return;
       }
     }
 
-    this.paramService.params = { origin: this.origin, dest: this.destination }
-    this.route.navigate(['./check-gps']);
+    console.log(this.newTrip);
+    // let params = new HttpParams()
+    //   .set('method', 'createtripwatch');
+    this.myEventService.getUnitId().pipe(take(1), takeUntil(this._unsubscribeAll)).subscribe(res => {
+      this.newTrip.unitid = res;
+      this.routeService.createTripWatch(this.newTrip).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
+        console.log(res);
+        this.loadingService.hideLoader();
+        this.myEventService.setRouteId(res.TrackingXLAPI.DATA[0].id);
+        this.paramService.params = { origin: this.newTrip.origen, dest: this.newTrip.destination, routeId: res.TrackingXLAPI.DATA[0].id };
+        this.route.navigate(['./check-gps']);
+      })
+    })
   }
 }
 
