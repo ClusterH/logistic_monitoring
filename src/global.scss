@@ -417,76 +417,85 @@ app-bookmark {
     }
   }
 }
-
 .alert-wrapper {
-  border-radius: 13px !important;
-  min-width: calc(100% - 58px) !important;
-  max-height: 484px !important;
-  height: auto;
-
-  .alert-head {
-    background: var(--bg-color);
-    padding: 20px 27px 16px 27px;
-
-    h2 {
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-size: 1rem;
+  text-align: center;
+  max-height: 160px;
+  .alert-message {
+    span {
+      text-transform: capitalize;
       color: var(--primary);
     }
   }
-
-  .alert-radio-group {
-    max-height: 291px !important;
-    background: var(--bg-color-secondary);
-
-    .alert-radio-button {
-      .alert-button-inner {
-        .alert-radio-label {
-          font-size: 1.2rem;
-          color: var(--white);
-        }
-      }
-    }
-  }
-
-  .alert-button-group {
-    padding: 0;
-    display: flex;
-    align-items: center;
-    position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      width: 1.5px;
-      height: 100%;
-      background-color: var(--white);
-      z-index: 9999;
-      margin: 0 auto;
-    }
-
-    .alert-button {
-      color: var(--white);
-      background: var(--primary);
-      height: 43px;
-      text-align: center;
-      margin: 0;
-      width: 50%;
-
-      .alert-button-inner {
-        width: 100%;
-        display: block;
-        height: fit-content;
-        font-size: 0.95rem;
-        text-transform: none;
-      }
-    }
-  }
 }
+// .alert-wrapper {
+//   border-radius: 13px !important;
+//   min-width: calc(100% - 58px) !important;
+//   max-height: 484px !important;
+//   height: auto;
+
+//   .alert-head {
+//     background: var(--bg-color);
+//     padding: 20px 27px 16px 27px;
+
+//     h2 {
+//       text-transform: uppercase;
+//       letter-spacing: 0.5px;
+//       font-size: 1rem;
+//       color: var(--primary);
+//     }
+//   }
+
+//   .alert-radio-group {
+//     max-height: 291px !important;
+//     background: var(--bg-color-secondary);
+
+//     .alert-radio-button {
+//       .alert-button-inner {
+//         .alert-radio-label {
+//           font-size: 1.2rem;
+//           color: var(--white);
+//         }
+//       }
+//     }
+//   }
+
+//   .alert-button-group {
+//     padding: 0;
+//     display: flex;
+//     align-items: center;
+//     position: relative;
+
+//     &::after {
+//       content: "";
+//       position: absolute;
+//       top: 0;
+//       left: 0;
+//       right: 0;
+//       width: 1.5px;
+//       height: 100%;
+//       background-color: var(--white);
+//       z-index: 9999;
+//       margin: 0 auto;
+//     }
+
+//     .alert-button {
+//       color: var(--white);
+//       background: var(--primary);
+//       height: 43px;
+//       text-align: center;
+//       margin: 0;
+//       width: 50%;
+
+//       .alert-button-inner {
+//         width: 100%;
+//         display: block;
+//         height: fit-content;
+//         font-size: 0.95rem;
+//         text-transform: none;
+//       }
+//     }
+//   }
+// }
 
 .action-sheet-group.sc-ion-action-sheet-md {
   background-color: black;

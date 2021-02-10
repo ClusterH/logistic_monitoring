@@ -19,6 +19,7 @@ import { Route } from '@angular/compiler/src/core';
 export class RouteListPage implements OnInit {
   driverId: number;
   routeList: any[];
+  routeList$: Observable<any[]>;
   selectedRoute: any;
 
   latOrigin: number;
@@ -34,7 +35,6 @@ export class RouteListPage implements OnInit {
 
   private _unsubscribeAll: Subject<any>;
 
-
   constructor(
     private route: Router,
     public menuCtrl: MenuController,
@@ -49,25 +49,6 @@ export class RouteListPage implements OnInit {
   ) {
     this.menuCtrl.enable(true);
     this._unsubscribeAll = new Subject();
-
-    // this.routeList = [
-    //   { id: 1, name: 'ROUTE-01' },
-    //   { id: 2, name: 'ROUTE-02' },
-    //   { id: 3, name: 'ROUTE-03' },
-    //   { id: 4, name: 'ROUTE-04' },
-    //   { id: 5, name: 'ROUTE-05' },
-    //   { id: 6, name: 'ROUTE-06' },
-    //   { id: 7, name: 'ROUTE-07' },
-    //   { id: 8, name: 'ROUTE-08' },
-    //   { id: 9, name: 'ROUTE-09' },
-    //   { id: 10, name: 'ROUTE-10' },
-    //   { id: 11, name: 'ROUTE-11' },
-    //   { id: 12, name: 'ROUTE-12' },
-    //   { id: 13, name: 'ROUTE-13' },
-    //   { id: 14, name: 'ROUTE-14' },
-    //   { id: 15, name: 'ROUTE-15' },
-    // ];
-    // this.selectedRoute = this.routeList[0];
   }
 
   ngOnInit() {
@@ -77,6 +58,7 @@ export class RouteListPage implements OnInit {
       this.routeService.getDriverRoutes(this.driverId).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
         console.log(res);
         this.routeList = [...res.TrackingXLAPI.DATA];
+        this.routeList$ = of(this.routeList);
       })
     });
   }
@@ -84,6 +66,11 @@ export class RouteListPage implements OnInit {
   ngOnDestroy(): void {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
+  }
+
+  filter(e: any): void {
+    console.log(e);
+    this.routeList$ = of(this.routeList.filter(item => item.name.toLowerCase().includes(e.detail.value.toLowerCase())));
   }
 
   onRouteClick(route): void {

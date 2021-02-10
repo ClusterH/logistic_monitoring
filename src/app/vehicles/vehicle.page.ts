@@ -14,7 +14,8 @@ import { MyEvent } from 'src/services/myevent.services';
 })
 export class VehiclePage implements OnInit, OnDestroy {
   driverId: number;
-  vehicleList = [];
+  vehicleList: VehicleModel[];
+  vehicleList$: Observable<VehicleModel[]>;
   selectedVehicle: string = '';
   private _unsubscribeAll: Subject<any>;
 
@@ -39,6 +40,7 @@ export class VehiclePage implements OnInit, OnDestroy {
       this.vehicleService.getDriverVehicles(this.driverId).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
         console.log(res);
         this.vehicleList = [...res.TrackingXLAPI.DATA];
+        this.vehicleList$ = of(this.vehicleList);
         this.selectedVehicle = this.vehicleList[0].id.toString();
       })
     });
@@ -47,6 +49,11 @@ export class VehiclePage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
+  }
+
+  filter(e: any): void {
+    console.log(e);
+    this.vehicleList$ = of(this.vehicleList.filter(item => item.name.toLowerCase().includes(e.detail.value.toLowerCase())));
   }
 
   onVehicleClick(vehicle): void {
@@ -64,4 +71,9 @@ export class VehiclePage implements OnInit, OnDestroy {
     this.myeventService.setUnitId(+this.selectedVehicle);
     this.route.navigate(['./route']);
   }
+}
+
+export interface VehicleModel {
+  id: number,
+  name: string
 }

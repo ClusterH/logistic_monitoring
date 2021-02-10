@@ -16,7 +16,7 @@
 		<h3>Vehicle Selector</h3>
 		<div class="search_box d-flex">
 			<ion-icon class="zmdi zmdi-search ion-text-start"></ion-icon>
-			<ion-searchbar class="ion-no-padding" searchIcon="hide" placeholder="" readonly="true">
+			<ion-searchbar class="ion-no-padding" searchIcon="hide" mode="ios" placeholder="" (ionChange)="filter($event)">
 			</ion-searchbar>
 		</div>
 	</div>
@@ -25,7 +25,7 @@
 <ion-content class="bg_color" fullscreen>
 	<ion-list lines="none" *ngIf="vehicleList && vehicleList.length > 0">
 		<ion-radio-group [(ngModel)]="selectedVehicle">
-			<ion-item *ngFor="let vehicle of vehicleList" (click)="onVehicleClick(vehicle)">
+			<ion-item *ngFor="let vehicle of vehicleList$ | async" (click)="onVehicleClick(vehicle)">
 				<div class="item_inner d-flex">
 					<h3>{{vehicle.name}}</h3>
 					<ion-radio class="end" value="{{'' + vehicle.id}}"></ion-radio>
