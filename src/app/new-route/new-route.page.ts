@@ -32,7 +32,7 @@ export class NewRoutePage implements OnInit, OnDestroy {
   departureDate: string;
   departureTime: string;
   pickerDuration = '2000-01-05T00:00:00';
-  displayDuration: string;
+  displayDuration: string = '';
   private geoCoder;
 
   private _unsubscribeAll: Subject<any>;
@@ -132,6 +132,7 @@ export class NewRoutePage implements OnInit, OnDestroy {
     }
 
     const directionsService = new google.maps.DirectionsService;
+    console.log('calcDuration===>>>', directionsService);
     let distance = 0;
     let duration = 0;
     this.loadingService.showLoader('Please wait...!');
@@ -144,12 +145,12 @@ export class NewRoutePage implements OnInit, OnDestroy {
       optimizeWaypoints: true,
       travelMode: google.maps.TravelMode.DRIVING
     }, (response, status) => {
-      console.log(response);
+      console.log('directionService===>>>', response, status);
       if (status == 'OK') {
         distance = response.routes[0].legs[0].distance.value;
         duration = response.routes[0].legs[0].duration.value;
         this.pickerDuration = this.calcDurationBystring(duration);
-        this.loadingService.hideLoader();
+        console.log('pickerDuration===>>>', this.pickerDuration);
       } else {
         this.loadingService.hideLoader();
         alert('Distance request failed due to ' + status);
@@ -159,11 +160,16 @@ export class NewRoutePage implements OnInit, OnDestroy {
   }
 
   calcDurationBystring(duration: number): string {
+    console.log('calcDurationBystring===>>>', duration);
     this.newTrip.eta = Math.floor(duration / 60);
     const day = Math.floor(duration / 86400);
     const hours = Math.floor((duration - day * 86400) / 3600);
     const min = Math.floor((duration - day * 86400 - hours * 3600) / 60);
     const durationString = `20${("00" + day).slice(-2)}-01-05T${("00" + hours).slice(-2)}:${("00" + min).slice(-2)}:00`;
+    const date = new Date(durationString);
+    this.newTrip.eta = date.getMinutes();
+    this.displayDuration = `${date.getFullYear().toString().slice(-2)}Day ${("00" + date.getHours()).slice(-2)}h ${("00" + date.getMinutes()).slice(-2)}min`;
+    this.loadingService.hideLoader();
     return durationString;
   }
 
@@ -172,6 +178,7 @@ export class NewRoutePage implements OnInit, OnDestroy {
   }
 
   durationChange(event: any): void {
+    console.log('durationCHange===>>>', event);
     const date = new Date(event.detail.value);
     this.newTrip.eta = date.getMinutes();
 
@@ -197,8 +204,6 @@ export class NewRoutePage implements OnInit, OnDestroy {
     }
 
     console.log(this.newTrip);
-    // let params = new HttpParams()
-    //   .set('method', 'createtripwatch');
     this.myEventService.getUnitId().pipe(take(1), takeUntil(this._unsubscribeAll)).subscribe(res => {
       this.newTrip.unitid = res;
       this.routeService.createTripWatch(this.newTrip).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {

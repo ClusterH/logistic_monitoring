@@ -59,9 +59,12 @@
     </div>
     <div class="custom_box d-flex">
       <div class="item_inner d-flex">
-        <ion-button (click)="openPicker()">{{displayDuration || '00Day 00h 00min'}}</ion-button>
+        <ion-button (click)="openPicker()">
+          <span *ngIf="displayDuration === ''">00Day 00h 00min</span>
+          <span *ngIf="displayDuration !== ''">{{displayDuration}}</span>
+        </ion-button>
       </div>
-      <div class="item_inner d-flex" style="display: none;">
+      <div class="item_inner d-flex">
         <ion-datetime #durationPicker class="duration-picker" displayFormat="YY HH:mm" min="2000" max="2199"
           pickerFormat="" placeholder="" [(ngModel)]="pickerDuration" (ionChange)="durationChange($event)">
         </ion-datetime>
