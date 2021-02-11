@@ -39,11 +39,11 @@ export class MyEvent {
     }
 
     public getRouteId(): Observable<any> {
-        return this.unitId$;
+        return this.routeId$;
     }
 
     public setRouteId(id: number) {
-        this.unitId.next(id);
+        this.routeId.next(id);
     }
 }
 

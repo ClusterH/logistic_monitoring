@@ -33,27 +33,27 @@ const routes: Routes = [
   },
   {
     path: 'new-route',
-    loadChildren: () => import('./new-route/new-route.module').then( m => m.NewRoutePageModule)
+    loadChildren: () => import('./new-route/new-route.module').then(m => m.NewRoutePageModule)
   },
   {
     path: 'check-gps',
-    loadChildren: () => import('./check-gps/check-gps.module').then( m => m.CheckGpsPageModule)
+    loadChildren: () => import('./check-gps/check-gps.module').then(m => m.CheckGpsPageModule)
   },
   {
     path: 'inspection',
-    loadChildren: () => import('./inspection/inspection.module').then( m => m.InspectionPageModule)
+    loadChildren: () => import('./inspection/inspection.module').then(m => m.InspectionPageModule)
   },
   {
     path: 'onroute',
-    loadChildren: () => import('./onroute/onroute.module').then( m => m.OnroutePageModule)
+    loadChildren: () => import('./onroute/onroute.module').then(m => m.OnroutePageModule)
   },
   {
     path: 'hazard-report',
-    loadChildren: () => import('./hazard-report/hazard-report.module').then( m => m.HazardReportPageModule)
+    loadChildren: () => import('./hazard-report/hazard-report.module').then(m => m.HazardReportPageModule)
   },
   {
     path: 'periodic-report',
-    loadChildren: () => import('./periodic-report/periodic-report.module').then( m => m.PeriodicReportPageModule)
+    loadChildren: () => import('./periodic-report/periodic-report.module').then(m => m.PeriodicReportPageModule)
   },
 ];
 

@@ -23,11 +23,11 @@
   </ion-select>
   <div class="note-area">
     <ion-label>Notes</ion-label>
-    <ion-textarea rows="12" cols="20" placeholder="Enter any notes here..."></ion-textarea>
+    <ion-textarea rows="12" cols="20" placeholder="Enter any notes here..." [(ngModel)]="noteContent"></ion-textarea>
   </div>
 </ion-content>
 <ion-footer class="ion-no-border">
-  <ion-button size="large" shape="full" class="btn">
+  <ion-button size="large" shape="full" class="btn" [disabled]="noteContent === ''" (click)="reportIncident()">
     Report
   </ion-button>
 </ion-footer>

@@ -1,15 +1,14 @@
-import { take, takeUntil } from 'rxjs/operators';
 import { MapsAPILoader } from '@agm/core';
-import { Component, ElementRef, NgZone, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { IonDatetime, Platform } from "@ionic/angular";
-import { ToastService } from '../core/toastController/toast.service';
-import { ParamService, LoaderService, RouteService } from '../services';
-import { NewTripModel } from '../models';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { MyEvent } from '../../services/myevent.services';
-import { Subject, Observable, of } from 'rxjs';
+import { ToastService } from '../core/toastController/toast.service';
+import { NewTripModel } from '../models';
+import { LoaderService, ParamService, RouteService } from '../services';
 
 @Component({
   selector: 'app-new-route',
@@ -32,7 +31,7 @@ export class NewRoutePage implements OnInit, OnDestroy {
   departureDate: string;
   departureTime: string;
   pickerDuration = '2000-01-05T00:00:00';
-  displayDuration: string = '';
+  displayDuration: string = '00Day 00h 00min';
   private geoCoder;
 
   private _unsubscribeAll: Subject<any>;
@@ -130,12 +129,11 @@ export class NewRoutePage implements OnInit, OnDestroy {
       this.toastService.showToast('danger', `Please Check Origin and Destination`);
       return;
     }
-
     const directionsService = new google.maps.DirectionsService;
     console.log('calcDuration===>>>', directionsService);
     let distance = 0;
     let duration = 0;
-    this.loadingService.showLoader('Please wait...!');
+    // this.loadingService.showLoader('Please wait...!');
 
     // setTimeout(() => {
     directionsService.route({
@@ -145,18 +143,18 @@ export class NewRoutePage implements OnInit, OnDestroy {
       optimizeWaypoints: true,
       travelMode: google.maps.TravelMode.DRIVING
     }, (response, status) => {
-      console.log('directionService===>>>', response, status);
-      if (status == 'OK') {
-        distance = response.routes[0].legs[0].distance.value;
-        duration = response.routes[0].legs[0].duration.value;
-        this.pickerDuration = this.calcDurationBystring(duration);
-        console.log('pickerDuration===>>>', this.pickerDuration);
-      } else {
-        this.loadingService.hideLoader();
-        alert('Distance request failed due to ' + status);
-      }
+      this.ngZone.run(() => {
+        console.log('directionService===>>>', response, status);
+        if (status == 'OK') {
+          distance = response.routes[0].legs[0].distance.value;
+          duration = response.routes[0].legs[0].duration.value;
+          this.pickerDuration = this.calcDurationBystring(duration);
+        } else {
+          this.loadingService.hideLoader();
+          alert('Distance request failed due to ' + status);
+        }
+      });
     });
-    // }, 1000)
   }
 
   calcDurationBystring(duration: number): string {
@@ -169,6 +167,7 @@ export class NewRoutePage implements OnInit, OnDestroy {
     const date = new Date(durationString);
     this.newTrip.eta = date.getMinutes();
     this.displayDuration = `${date.getFullYear().toString().slice(-2)}Day ${("00" + date.getHours()).slice(-2)}h ${("00" + date.getMinutes()).slice(-2)}min`;
+
     this.loadingService.hideLoader();
     return durationString;
   }
