@@ -1,99 +1,66 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { NavController } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
-
-import { TranslateService } from '@ngx-translate/core';
-import { APP_CONFIG, AppConfig } from './app.config';
 import { MyEvent } from 'src/services/myevent.services';
 import { Constants } from 'src/models/contants.models';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss']
+  styleUrls: ['app.component.scss'],
 })
-export class AppComponent implements OnInit {
-  rtlSide = "left";
+export class AppComponent {
   public selectedIndex = 0;
   public appPages = [
     {
-      title: 'vehicle_selector',
-      sub_title: 'list_vehicle',
+      title: 'Vehicle Selector',
+      sub_title: 'List of vehicles',
       url: '/vehicle',
       icon: 'zmdi zmdi-store ion-text-start'
     },
     {
-      title: 'route_list',
-      sub_title: 'list_route',
+      title: 'Route List',
+      sub_title: 'List of Route',
       url: '/route',
       icon: 'zmdi zmdi-pin-drop ion-text-start'
     },
     {
-      title: 'check_gps',
-      sub_title: 'gps_checking',
+      title: 'Confirm Route Change',
+      sub_title: 'Check GPS Status',
       url: '/check-gps',
       icon: 'zmdi zmdi-gps-dot ion-text-start'
     },
     {
-      title: 'hazard_report',
-      sub_title: 'hazard_report',
+      title: 'Hazard Report',
+      sub_title: 'Hazard Report',
       url: '/hazard-report',
       icon: 'zmdi zmdi-gps-dot ion-text-start'
     },
     {
-      title: 'periodic_report',
-      sub_title: 'periodic_report',
+      title: 'Periodic Report',
+      sub_title: 'Periodic Report',
       url: '/periodic-report',
       icon: 'zmdi zmdi-gps-dot ion-text-start'
     },
   ];
 
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
     private platform: Platform, private navCtrl: NavController,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private storage: Storage,
-    private translate: TranslateService, private myEvent: MyEvent) {
+    private myEvent: MyEvent
+  ) {
     this.initializeApp();
-    this.myEvent.getLanguageObservable().subscribe(value => {
-      this.navCtrl.navigateRoot(['./']);
-      this.globalize(value);
-    });
+    this.navCtrl.navigateRoot(['./']);
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-
-      let defaultLang = window.localStorage.getItem(Constants.KEY_DEFAULT_LANGUAGE);
-      this.globalize(defaultLang);
     });
-  }
-
-  globalize(languagePriority) {
-    this.translate.setDefaultLang("en");
-    let defaultLangCode = this.config.availableLanguages[0].code;
-    this.translate.use(languagePriority && languagePriority.length ? languagePriority : defaultLangCode);
-    this.setDirectionAccordingly(languagePriority && languagePriority.length ? languagePriority : defaultLangCode);
-  }
-
-  setDirectionAccordingly(lang: string) {
-    switch (lang) {
-      case 'ar': {
-        this.rtlSide = "rtl";
-        break;
-      }
-      default: {
-        this.rtlSide = "ltr";
-        break;
-      }
-    }
   }
 
   ngOnInit() {
@@ -105,8 +72,6 @@ export class AppComponent implements OnInit {
 
 
   logOut() {
-    this.storage.clear();
-    localStorage.clear();
     this.navCtrl.navigateRoot(['./signin']);
   }
 

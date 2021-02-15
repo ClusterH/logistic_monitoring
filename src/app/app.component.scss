@@ -1,53 +1,50 @@
 @font-face {
-	font-family: 'Google Sans';
-	src: url('../assets/font/GoogleSans-Italic.woff2') format('woff2'),
-		url('../assets/font/GoogleSans-Italic.woff') format('woff');
-	font-weight: normal;
-	font-style: italic;
+  font-family: "Google Sans";
+  src: url("../assets/font/GoogleSans-Italic.woff2") format("woff2"),
+    url("../assets/font/GoogleSans-Italic.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
 }
 
 @font-face {
-	font-family: 'Google Sans';
-	src: url('../assets/font/GoogleSans-Regular.woff2') format('woff2'),
-		url('../assets/font/GoogleSans-Regular.woff') format('woff');
-	font-weight: normal;
-	font-style: normal;
+  font-family: "Google Sans";
+  src: url("../assets/font/GoogleSans-Regular.woff2") format("woff2"),
+    url("../assets/font/GoogleSans-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-	font-family: 'Google Sans';
-	src: url('../assets/font/GoogleSans-BoldItalic.woff2') format('woff2'),
-		url('../assets/font/GoogleSans-BoldItalic.woff') format('woff');
-	font-weight: bold;
-	font-style: italic;
+  font-family: "Google Sans";
+  src: url("../assets/font/GoogleSans-BoldItalic.woff2") format("woff2"),
+    url("../assets/font/GoogleSans-BoldItalic.woff") format("woff");
+  font-weight: bold;
+  font-style: italic;
 }
 
 @font-face {
-	font-family: 'Google Sans';
-	src: url('../assets/font/GoogleSans-Bold.woff2') format('woff2'),
-		url('../assets/font/GoogleSans-Bold.woff') format('woff');
-	font-weight: bold;
-	font-style: normal;
+  font-family: "Google Sans";
+  src: url("../assets/font/GoogleSans-Bold.woff2") format("woff2"),
+    url("../assets/font/GoogleSans-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
 }
 
 @font-face {
-	font-family: 'Google Sans';
-	src: url('../assets/font/GoogleSans-MediumItalic.woff2') format('woff2'),
-		url('../assets/font/GoogleSans-MediumItalic.woff') format('woff');
-	font-weight: 500;
-	font-style: italic;
+  font-family: "Google Sans";
+  src: url("../assets/font/GoogleSans-MediumItalic.woff2") format("woff2"),
+    url("../assets/font/GoogleSans-MediumItalic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
 }
 
 @font-face {
-	font-family: 'Google Sans';
-	src: url('../assets/font/GoogleSans-Medium.woff2') format('woff2'),
-		url('../assets/font/GoogleSans-Medium.woff') format('woff');
-	font-weight: 500;
-	font-style: normal;
+  font-family: "Google Sans";
+  src: url("../assets/font/GoogleSans-Medium.woff2") format("woff2"),
+    url("../assets/font/GoogleSans-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
 }
-
-
-
 
 *,
 body,
@@ -62,135 +59,128 @@ h5,
 h6,
 strong,
 li {
-	--ion-font-family: 'Google Sans';
-	font-family: 'Google Sans';
-	//letter-spacing: .05rem;
+  --ion-font-family: "Google Sans";
+  font-family: "Google Sans";
+  //letter-spacing: .05rem;
 }
 
 .zmdi {
-	font-family: 'Material-Design-Iconic-Font' !important;
+  font-family: "Material-Design-Iconic-Font" !important;
 }
 
 ion-menu {
-	--background: var(--bg-color);
-	--width: calc(100% - 50px);
+  --background: var(--bg-color);
+  --width: calc(100% - 50px);
 
-	ion-header {
-		z-index: 9999;
-		padding: 30px 25px 20px 25px;
+  ion-header {
+    z-index: 9999;
+    padding: 30px 25px 20px 25px;
 
-		.profile_box {
-			h2 {
-				margin: 0;
-				color: var(--white);
-				font-size: 1.6rem;
-				padding-bottom: 5px
-			}
+    .profile_box {
+      h2 {
+        margin: 0;
+        color: var(--white);
+        font-size: 1.6rem;
+        padding-bottom: 5px;
+      }
 
-			h3 {
-				margin: 0;
-				color: var(--text-light);
-				font-size: 1rem;
-				padding-bottom: 5px;
+      h3 {
+        margin: 0;
+        color: var(--text-light);
+        font-size: 1rem;
+        padding-bottom: 5px;
 
-				ion-icon {
-					color: var(--primary);
-					font-size: 1.5rem;
-				}
-			}
+        ion-icon {
+          color: var(--primary);
+          font-size: 1.5rem;
+        }
+      }
+    }
 
-		}
+    .buy_this_app {
+      background: var(--primary);
+      position: relative;
+      bottom: 0px;
+      right: 0px;
+      border-radius: 50px;
+      height: 47px;
+      display: flex;
+      align-items: center;
+      min-width: 150px;
+      margin: 16px 0px;
+      width: fit-content;
 
-		.buy_this_app {
-			background: var(--primary);
-			position: relative;
-			bottom: 0px;
-			right: 0px;
-			border-radius: 50px;
-			height: 47px;
-			display: flex;
-			align-items: center;
-			min-width: 150px; 
-			margin: 16px 0px;
-			width: fit-content;
+      h2 {
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        margin: auto;
+        width: fit-content;
+        font-size: 0.95rem;
+        font-weight: 500;
+        padding: 0;
 
-			h2 {
-				color: var(--white);
-				display: flex;
-				align-items: center;
-				margin: auto;
-				width: fit-content;
-				font-size: .95rem;
-				font-weight: 500;
-				padding: 0;
+        ion-icon {
+          font-size: 1.1rem;
+          min-width: 25px;
+        }
+      }
+    }
+  }
 
-				ion-icon {
-					font-size: 1.1rem;
-					min-width: 25px;
-				}
-			}
-		}
-	}
+  ion-content {
+    --background: rgba(0, 0, 0, 0) !important;
+  }
 
-	ion-content {
-		--background: rgba(0, 0, 0, 0) !important;
+  ion-list {
+    background: var(--transparent) !important;
+    padding: 0;
+    width: calc(100% - 20px);
+    margin: 0 auto;
+    position: relative;
+    z-index: 999;
 
-	}
+    ion-item {
+      padding: 12px 6px 12px 16px;
+      --inner-padding-end: 0px;
+      --inner-min-height: unset !important;
+      --padding-start: 0;
+      --highligh-color-focused: var(--transparent) !important;
+      --background: var(--transparent);
+      --min-height: unset;
+      --background: var(--transparent) !important;
+      --background-activated: var(--transparent) !important;
+      --background-activated-opacity: 1;
+      --background-hover: var(--transparent) !important;
+      --ripple-color: var(--transparent) !important;
 
-	ion-list {
-		background: var(--transparent) !important;
-		padding: 0;
-		width: calc(100% - 20px);
-		margin: 0 auto;
-		position: relative;
-		z-index: 999;
+      .item_inner {
+        align-items: flex-start;
 
-		ion-item {
-			padding: 12px 6px 12px 16px;
-			--inner-padding-end: 0px;
-			--inner-min-height: unset !important;
-			--padding-start: 0;
-			--highligh-color-focused: var(--transparent) !important;
-			--background: var(--transparent);
-			--min-height: unset;
-			--background: var(--transparent) !important;
-			--background-activated: var(--transparent) !important;
-			--background-activated-opacity: 1;
-			--background-hover: var(--transparent) !important;
-			--ripple-color: var(--transparent) !important;
+        ion-icon {
+          font-size: 1.3rem;
+          min-width: 43px;
+          color: var(--primary);
+        }
 
-			.item_inner {
-				align-items: flex-start;
+        h2 {
+          margin: 0;
+          color: var(--white);
+          font-weight: 400;
+          font-size: 1.15rem;
+          text-transform: none;
+          letter-spacing: 0.5px;
+          padding-bottom: 5px;
+        }
 
-				ion-icon {
-					font-size: 1.3rem;
-					min-width: 43px;
-					color: var(--primary);
-
-				}
-
-				h2 {
-					margin: 0;
-					color: var(--white);
-					font-weight: 400;
-					font-size: 1.15rem;
-					text-transform: none;
-					letter-spacing: .5px;
-					padding-bottom: 5px;
-				}
-
-				h3 {
-					margin: 0;
-					color: var(--text-light);
-					font-size: .75rem;
-					font-weight: 400;
-					letter-spacing: .3px;
-				}
-			}
-
-
-
-		}
-	}
-
+        h3 {
+          margin: 0;
+          color: var(--text-light);
+          font-size: 0.75rem;
+          font-weight: 400;
+          letter-spacing: 0.3px;
+        }
+      }
+    }
+  }
 }

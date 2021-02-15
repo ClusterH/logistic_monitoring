@@ -1,7 +1,6 @@
 {
   "name": "logistic-monitoring",
   "integrations": {
-    "capacitor": {},
     "cordova": {}
   },
   "type": "angular"

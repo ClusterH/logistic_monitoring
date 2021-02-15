@@ -27,10 +27,7 @@ const routes: Routes = [
     path: 'route',
     loadChildren: () => import('./routes/routeList.module').then(m => m.RouteListPageModule)
   },
-  {
-    path: 'title',
-    loadChildren: () => import('./title/title.module').then(m => m.TitlePageModule)
-  },
+
   {
     path: 'new-route',
     loadChildren: () => import('./new-route/new-route.module').then(m => m.NewRoutePageModule)

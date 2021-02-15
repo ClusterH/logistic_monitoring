@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
 import { Subject, Observable, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { VehicleService } from '../services';
@@ -22,7 +21,6 @@ export class VehiclePage implements OnInit, OnDestroy {
   constructor(
     private route: Router,
     public menuCtrl: MenuController,
-    private storage: Storage,
     private vehicleService: VehicleService,
     private myeventService: MyEvent
   ) {

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
 import { AuthenticationService, LoaderService } from '../services';
 import { ToastService } from '../core/toastController/toast.service';
 import { MyEvent } from 'src/services/myevent.services';
@@ -21,7 +20,6 @@ export class SigninPage implements OnInit, OnDestroy {
   constructor(
     private route: Router,
     public menuCtrl: MenuController,
-    private storage: Storage,
     private authService: AuthenticationService,
     private loadingService: LoaderService,
     private toastService: ToastService,
@@ -62,7 +60,8 @@ export class SigninPage implements OnInit, OnDestroy {
         this.loadingService.hideLoader();
         this.toastService.showToast('success', 'Login Success');
         setTimeout(() => {
-          this.route.navigate(['./vehicle']);
+          this.route.navigate(['./periodic-report']);
+          // this.route.navigate(['./vehicle']);
         }, 500)
       } else {
         this.loadingService.hideLoader();
