@@ -9,48 +9,44 @@ const routes: Routes = [
   },
   {
     path: 'signin',
-    loadChildren: () => import('./signin/signin.module').then(m => m.SigninPageModule)
+    loadChildren: () => import('./modules/signin/signin.module').then(m => m.SigninPageModule)
   },
   {
     path: 'signup',
-    loadChildren: () => import('./signup/signup.module').then(m => m.SignupPageModule)
+    loadChildren: () => import('./modules/signup/signup.module').then(m => m.SignupPageModule)
   },
   {
     path: 'forgot',
-    loadChildren: () => import('./forgot/forgot.module').then(m => m.ForgotPageModule)
+    loadChildren: () => import('./modules/forgot/forgot.module').then(m => m.ForgotPageModule)
   },
   {
     path: 'vehicle',
-    loadChildren: () => import('./vehicles/vehicle.module').then(m => m.VehiclePageModule)
+    loadChildren: () => import('./modules/vehicles/vehicle.module').then(m => m.VehiclePageModule)
   },
   {
     path: 'route',
-    loadChildren: () => import('./routes/routeList.module').then(m => m.RouteListPageModule)
+    loadChildren: () => import('./modules/routes/routeList.module').then(m => m.RouteListPageModule)
   },
 
   {
     path: 'new-route',
-    loadChildren: () => import('./new-route/new-route.module').then(m => m.NewRoutePageModule)
+    loadChildren: () => import('./modules/new-route/new-route.module').then(m => m.NewRoutePageModule)
   },
   {
     path: 'check-gps',
-    loadChildren: () => import('./check-gps/check-gps.module').then(m => m.CheckGpsPageModule)
+    loadChildren: () => import('./modules/check-gps/check-gps.module').then(m => m.CheckGpsPageModule)
   },
   {
     path: 'inspection',
-    loadChildren: () => import('./inspection/inspection.module').then(m => m.InspectionPageModule)
+    loadChildren: () => import('./modules/inspection/inspection.module').then(m => m.InspectionPageModule)
   },
   {
     path: 'onroute',
-    loadChildren: () => import('./onroute/onroute.module').then(m => m.OnroutePageModule)
+    loadChildren: () => import('./modules/onroute/onroute.module').then(m => m.OnroutePageModule)
   },
   {
     path: 'hazard-report',
-    loadChildren: () => import('./hazard-report/hazard-report.module').then(m => m.HazardReportPageModule)
-  },
-  {
-    path: 'periodic-report',
-    loadChildren: () => import('./periodic-report/periodic-report.module').then(m => m.PeriodicReportPageModule)
+    loadChildren: () => import('./modules/hazard-report/hazard-report.module').then(m => m.HazardReportPageModule)
   },
 ];
 

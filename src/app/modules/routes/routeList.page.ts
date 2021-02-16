@@ -5,7 +5,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
-import { ParamService, LoaderService, RouteService } from '../services';
+import { ParamService, LoaderService, RouteService } from '../../services';
 import { MyEvent } from 'src/services/myevent.services';
 import { Subject, Observable, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -53,10 +53,10 @@ export class RouteListPage implements OnInit {
 
   ngOnInit() {
     this.myeventService.getUserAuth().subscribe(res => {
-      console.log('vehicleCompo getUser===>>>', res);
+
       this.driverId = res.userID;
       this.routeService.getDriverRoutes(this.driverId).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-        console.log(res);
+
         this.routeList = [...res.TrackingXLAPI.DATA];
         this.routeList$ = of(this.routeList);
       })
@@ -69,12 +69,12 @@ export class RouteListPage implements OnInit {
   }
 
   filter(e: any): void {
-    console.log(e);
+
     this.routeList$ = of(this.routeList.filter(item => item.name.toLowerCase().includes(e.detail.value.toLowerCase())));
   }
 
   onRouteClick(route): void {
-    console.log(route);
+
     this.paramService.params = { origin: 'Route Origin', dest: 'Route Destination' };
     this.route.navigate(['./check-gps']);
   }
@@ -154,7 +154,7 @@ export class RouteListPage implements OnInit {
   getGeoencoder(latitude, longitude) {
     this.nativeGeocoder.reverseGeocode(latitude, longitude, this.geoencoderOptions)
       .then((result: NativeGeocoderResult[]) => {
-        console.log(result);
+
         this.origin = this.generateAddress(result[0]);
         this.paramService.params = { origin: this.origin, lat: this.latOrigin, lng: this.lngOrigin };
         this.loadingService.hideLoader();
@@ -170,7 +170,7 @@ export class RouteListPage implements OnInit {
 
   //Return Comma saperated address
   generateAddress(addressObj) {
-    console.log(addressObj);
+
     let obj = [];
     let address = "";
     for (let key in addressObj) {
@@ -181,7 +181,7 @@ export class RouteListPage implements OnInit {
       if (obj[val].length)
         address += obj[val] + ', ';
     }
-    console.log(address);
+
     return address.slice(0, -2);
   }
 }

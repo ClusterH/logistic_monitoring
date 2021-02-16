@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { Subject, Observable, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { VehicleService } from '../services';
+import { VehicleService } from '../../services';
 import { MyEvent } from 'src/services/myevent.services';
 
 @Component({
@@ -30,13 +30,13 @@ export class VehiclePage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('vehicleCompo onInit===>>>');
+
 
     this.myeventService.getUserAuth().subscribe(res => {
-      console.log('vehicleCompo getUser===>>>', res);
+
       this.driverId = res.userID;
       this.vehicleService.getDriverVehicles(this.driverId).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-        console.log(res);
+
         this.vehicleList = [...res.TrackingXLAPI.DATA];
         this.vehicleList$ = of(this.vehicleList);
         this.selectedVehicle = this.vehicleList[0].id.toString();
@@ -50,15 +50,15 @@ export class VehiclePage implements OnInit, OnDestroy {
   }
 
   filter(e: any): void {
-    console.log(e);
+
     this.vehicleList$ = of(this.vehicleList.filter(item => item.name.toLowerCase().includes(e.detail.value.toLowerCase())));
   }
 
   onVehicleClick(vehicle): void {
     this.selectedVehicle = vehicle.id.toString();
-    console.log('selected===>>', this.selectedVehicle);
+
     this.vehicleService.selectDriver(this.driverId, vehicle.id).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-      console.log(res);
+
     });
   }
 

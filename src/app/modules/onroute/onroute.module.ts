@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-
 import { OnroutePageRoutingModule } from './onroute-routing.module';
-
 import { OnroutePage } from './onroute.page';
 
 @NgModule({
@@ -15,6 +13,6 @@ import { OnroutePage } from './onroute.page';
     IonicModule,
     OnroutePageRoutingModule
   ],
-  declarations: [OnroutePage]
+  declarations: [OnroutePage],
 })
-export class OnroutePageModule {}
+export class OnroutePageModule { }

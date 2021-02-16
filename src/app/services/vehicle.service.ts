@@ -19,7 +19,7 @@ export class VehicleService {
   }
 
   selectDriver(driverid: number, vehicleid: number): Observable<any> {
-    console.log(driverid, '====', vehicleid);
+
 
     let headers = new HttpHeaders();
     headers = headers.append("Authorization", "Basic " + btoa("trackingxl:4W.f#jB*[pE.j9m"));
@@ -38,7 +38,7 @@ export class VehicleService {
   }
 
   getDriverVehicles(driverid: number, name?: string): Observable<any> {
-    console.log('getDriverVehicles===>>>', driverid);
+
     let headers = new HttpHeaders();
     headers = headers.append("Authorization", "Basic " + btoa("trackingxl:4W.f#jB*[pE.j9m"));
     let params = new HttpParams()

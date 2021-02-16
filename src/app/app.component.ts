@@ -4,7 +4,6 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { NavController } from '@ionic/angular';
 import { MyEvent } from 'src/services/myevent.services';
-import { Constants } from 'src/models/contants.models';
 
 @Component({
   selector: 'app-root',
@@ -36,12 +35,6 @@ export class AppComponent {
       title: 'Hazard Report',
       sub_title: 'Hazard Report',
       url: '/hazard-report',
-      icon: 'zmdi zmdi-gps-dot ion-text-start'
-    },
-    {
-      title: 'Periodic Report',
-      sub_title: 'Periodic Report',
-      url: '/periodic-report',
       icon: 'zmdi zmdi-gps-dot ion-text-start'
     },
   ];

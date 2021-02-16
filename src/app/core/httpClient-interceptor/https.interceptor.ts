@@ -19,10 +19,10 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     // this.storage.get('current_token').then((token) => {
-    //     console.log('token===>>>', token);
+    //
     //     if (token !== null && token.length > 0) {
     //         this.storage.get('user_auth').then(res => {
-    //             console.log('interceptor_user-auth===>>>', res);
+    //
     //             const conncode: string = JSON.parse(res).conncode;
     //             const userid: number = JSON.parse(res).id;
 
@@ -31,7 +31,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     //                 req = req.clone({ params: req.params.set("conncode", conncode) });
     //                 req = req.clone({ params: req.params.set("userid", userid.toString()) });
 
-    //                 console.log('api_interceptor===>>>', req);
+    //
     //             }
     //         })
     //     }

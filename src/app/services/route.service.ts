@@ -20,7 +20,7 @@ export class RouteService {
   }
 
   getDriverRoutes(driverid: number, name?: string): Observable<any> {
-    console.log('getDriverRoutes===>>>', driverid);
+
     let headers = new HttpHeaders();
     headers = headers.append("Authorization", "Basic " + btoa("trackingxl:4W.f#jB*[pE.j9m"));
     let params = new HttpParams()
@@ -39,7 +39,7 @@ export class RouteService {
   }
 
   createTripWatch(newTrip: NewTripModel): Observable<any> {
-    console.log('getDriverRoutes===>>>', newTrip);
+
     let headers = new HttpHeaders();
     headers = headers.append("Authorization", "Basic " + btoa("trackingxl:4W.f#jB*[pE.j9m"));
     let params = new HttpParams()
@@ -50,7 +50,7 @@ export class RouteService {
       .append('method', 'createTripWatch');
 
     Object.keys(newTrip).map(param => {
-      console.log(param);
+
       params = params.append(`${param}`, newTrip[param].toString());
     });
 
@@ -70,6 +70,24 @@ export class RouteService {
       .set('driverid', this.userAuth.userID.toString())
       .set('tripid', tripId.toString())
       .set('method', method);
+
+    return this._httpClient.get(`${Constants.BASE_URL}/trackingxlapi.ashx`, {
+      headers: headers,
+      params: params
+    });
+  }
+
+  sendPeriodicCode(code: string, tripId: number): Observable<any> {
+    let headers = new HttpHeaders();
+    headers = headers.append("Authorization", "Basic " + btoa("trackingxl:4W.f#jB*[pE.j9m"));
+    let params = new HttpParams()
+      .set('userid', this.userAuth.userID.toString())
+      .set('conncode', this.userAuth.conncode.toString())
+      .set('token', this.userAuth.token.toString())
+      .set('driverid', this.userAuth.userID.toString())
+      .set('tripid', tripId.toString())
+      .set('code', code.toString())
+      .set('method', 'periodic_code');
 
     return this._httpClient.get(`${Constants.BASE_URL}/trackingxlapi.ashx`, {
       headers: headers,

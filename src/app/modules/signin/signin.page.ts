@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-import { AuthenticationService, LoaderService } from '../services';
-import { ToastService } from '../core/toastController/toast.service';
+import { AuthenticationService, LoaderService } from '../../services';
+import { ToastService } from '../../core/toastController/toast.service';
 import { MyEvent } from 'src/services/myevent.services';
 import { Subject, Observable, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -30,11 +30,6 @@ export class SigninPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.storage.get('current_token').then(res => {
-    //   if (res.length > 0) {
-    //     this.storage.clear();
-    //   }
-    // });
   }
 
   ngOnDestroy(): void {
@@ -45,10 +40,8 @@ export class SigninPage implements OnInit, OnDestroy {
   logIn() {
     this.loadingService.showLoader('Please wait until confirm the login!');
     this.authService.logIn(this.email, this.password).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-      console.log(res);
+
       if (res.responseCode === 100 && res.TrackingXLAPI.DATA[0].id > 0) {
-        // this.storage.set('current_token', (res.token).toString());
-        // this.storage.set('user_auth', JSON.stringify(res.TrackingXLAPI.DATA[0]));
         const user = {
           userID: res.TrackingXLAPI.DATA[0].id,
           conncode: res.TrackingXLAPI.DATA[0].conncode,
@@ -60,8 +53,8 @@ export class SigninPage implements OnInit, OnDestroy {
         this.loadingService.hideLoader();
         this.toastService.showToast('success', 'Login Success');
         setTimeout(() => {
-          this.route.navigate(['./periodic-report']);
-          // this.route.navigate(['./vehicle']);
+          // this.route.navigate(['./onroute']);
+          this.route.navigate(['./vehicle']);
         }, 500)
       } else {
         this.loadingService.hideLoader();

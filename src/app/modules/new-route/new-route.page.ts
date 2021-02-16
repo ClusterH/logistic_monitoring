@@ -5,10 +5,10 @@ import { NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { IonDatetime, Platform } from "@ionic/angular";
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { MyEvent } from '../../services/myevent.services';
-import { ToastService } from '../core/toastController/toast.service';
-import { NewTripModel } from '../models';
-import { LoaderService, ParamService, RouteService } from '../services';
+import { MyEvent } from '../../../services/myevent.services';
+import { ToastService } from '../../core/toastController/toast.service';
+import { NewTripModel } from '../../models';
+import { LoaderService, ParamService, RouteService } from '../../services';
 
 @Component({
   selector: 'app-new-route',
@@ -130,7 +130,7 @@ export class NewRoutePage implements OnInit, OnDestroy {
       return;
     }
     const directionsService = new google.maps.DirectionsService;
-    console.log('calcDuration===>>>', directionsService);
+
     let distance = 0;
     let duration = 0;
     // this.loadingService.showLoader('Please wait...!');
@@ -144,7 +144,7 @@ export class NewRoutePage implements OnInit, OnDestroy {
       travelMode: google.maps.TravelMode.DRIVING
     }, (response, status) => {
       this.ngZone.run(() => {
-        console.log('directionService===>>>', response, status);
+
         if (status == 'OK') {
           distance = response.routes[0].legs[0].distance.value;
           duration = response.routes[0].legs[0].duration.value;
@@ -158,7 +158,7 @@ export class NewRoutePage implements OnInit, OnDestroy {
   }
 
   calcDurationBystring(duration: number): string {
-    console.log('calcDurationBystring===>>>', duration);
+
     this.newTrip.eta = Math.floor(duration / 60);
     const day = Math.floor(duration / 86400);
     const hours = Math.floor((duration - day * 86400) / 3600);
@@ -177,7 +177,7 @@ export class NewRoutePage implements OnInit, OnDestroy {
   }
 
   durationChange(event: any): void {
-    console.log('durationCHange===>>>', event);
+
     const date = new Date(event.detail.value);
     this.newTrip.eta = date.getMinutes();
 
@@ -202,11 +202,11 @@ export class NewRoutePage implements OnInit, OnDestroy {
       }
     }
 
-    console.log(this.newTrip);
+
     this.myEventService.getUnitId().pipe(take(1), takeUntil(this._unsubscribeAll)).subscribe(res => {
       this.newTrip.unitid = res;
       this.routeService.createTripWatch(this.newTrip).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-        console.log(res);
+
         this.loadingService.hideLoader();
         this.myEventService.setRouteId(res.TrackingXLAPI.DATA[0].id);
         this.paramService.params = { origin: this.newTrip.origen, dest: this.newTrip.destination, routeId: res.TrackingXLAPI.DATA[0].id };

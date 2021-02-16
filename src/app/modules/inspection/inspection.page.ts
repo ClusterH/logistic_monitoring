@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ParamService } from '../services';
+import { ParamService } from '../../services';
 
 @Component({
   selector: 'app-inspection',
