@@ -52,6 +52,7 @@ export class SigninPage implements OnInit, OnDestroy {
         this.authService.getCurrentTripWatch(user).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
           if (res.responseCode === 100 && res.TrackingXLAPI.DATA[0].id > 0) {
             this.myeventService.setRouteId(res.TrackingXLAPI.DATA[0].id);
+            this.myeventService.setLastContact(res.TrackingXLAPI.DATA[0].lastcontact);
             this.loadingService.hideLoader();
             this.toastService.showToast('success', 'Moving to Current Tripwatch...!');
             this.route.navigate(['./onroute']);

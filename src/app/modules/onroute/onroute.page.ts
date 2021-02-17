@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { last, takeUntil } from 'rxjs/operators';
 import { ToastService } from '../../core/toastController/toast.service';
 import { LoaderService, RouteService, AudioService } from '../../services';
 import { MyEvent } from '../../../services/myevent.services';
@@ -15,6 +15,7 @@ import { MyEvent } from '../../../services/myevent.services';
 })
 export class OnroutePage implements OnInit, OnDestroy {
   routeId: number;
+  lastContact = '';
   status: string;
   setInterval: any;
   eventButtonActiveList = {
@@ -41,7 +42,17 @@ export class OnroutePage implements OnInit, OnDestroy {
     this._unsubscribeAll = new Subject();
     this.status = 'On Route';
     this.plt.ready().then(() => {
-      this.startAlert();
+      this.myEventService.getLastContact().pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
+        if (res) {
+          this.lastContact = res;
+          if (this.calcDifferenceTime(res)) {
+            this.startAlert();
+          } else {
+          }
+        } else {
+          this.startAlert();
+        }
+      });
       this.startNotification();
     });
   }
@@ -53,7 +64,7 @@ export class OnroutePage implements OnInit, OnDestroy {
       } else {
         this.routeId = 3;
       }
-    })
+    });
   }
 
   ngAfterViewInit() {
@@ -217,5 +228,11 @@ export class OnroutePage implements OnInit, OnDestroy {
       clearInterval(this.setInterval);
       this.route.navigate(['./route']);
     }
+  }
+
+  calcDifferenceTime(lastContact: string): boolean {
+    const today = new Date();
+    const difference = (new Date().getTime() - new Date(lastContact).getTime());
+    return (900000 < difference);
   }
 }
