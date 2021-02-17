@@ -53,10 +53,8 @@ export class RouteListPage implements OnInit {
 
   ngOnInit() {
     this.myeventService.getUserAuth().subscribe(res => {
-
       this.driverId = res.userID;
       this.routeService.getDriverRoutes(this.driverId).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-
         this.routeList = [...res.TrackingXLAPI.DATA];
         this.routeList$ = of(this.routeList);
       })
@@ -69,13 +67,11 @@ export class RouteListPage implements OnInit {
   }
 
   filter(e: any): void {
-
     this.routeList$ = of(this.routeList.filter(item => item.name.toLowerCase().includes(e.detail.value.toLowerCase())));
   }
 
   onRouteClick(route): void {
-
-    this.paramService.params = { origin: 'Route Origin', dest: 'Route Destination' };
+    this.paramService.params = { origin: route.origen, dest: route.destination, routeId: route.id };
     this.route.navigate(['./check-gps']);
   }
 

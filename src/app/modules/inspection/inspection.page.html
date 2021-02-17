@@ -21,7 +21,7 @@
   <ion-list lines="none">
     <ion-item class="select-all">
       <ion-label>GPS Status</ion-label>
-      <ion-checkbox [(ngModel)]="isSelectAll" [indeterminate]="isIndeterminate" (click)="checkMaster($event)">
+      <ion-checkbox [(ngModel)]="isSelectAll" [indeterminate]="isIndeterminate" (click)="checkMaster()">
       </ion-checkbox>
     </ion-item>
     <ion-item *ngFor="let item of statusList">
@@ -30,3 +30,9 @@
     </ion-item>
   </ion-list>
 </ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-button size="large" shape="full" class="btn" (click)="goBack()">
+    OK
+  </ion-button>
+</ion-footer>

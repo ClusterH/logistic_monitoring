@@ -202,11 +202,9 @@ export class NewRoutePage implements OnInit, OnDestroy {
       }
     }
 
-
     this.myEventService.getUnitId().pipe(take(1), takeUntil(this._unsubscribeAll)).subscribe(res => {
       this.newTrip.unitid = res;
       this.routeService.createTripWatch(this.newTrip).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-
         this.loadingService.hideLoader();
         this.myEventService.setRouteId(res.TrackingXLAPI.DATA[0].id);
         this.paramService.params = { origin: this.newTrip.origen, dest: this.newTrip.destination, routeId: res.TrackingXLAPI.DATA[0].id };

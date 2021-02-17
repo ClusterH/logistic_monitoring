@@ -30,13 +30,9 @@ export class VehiclePage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
-
     this.myeventService.getUserAuth().subscribe(res => {
-
       this.driverId = res.userID;
       this.vehicleService.getDriverVehicles(this.driverId).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-
         this.vehicleList = [...res.TrackingXLAPI.DATA];
         this.vehicleList$ = of(this.vehicleList);
         this.selectedVehicle = this.vehicleList[0].id.toString();
@@ -56,7 +52,6 @@ export class VehiclePage implements OnInit, OnDestroy {
 
   onVehicleClick(vehicle): void {
     this.selectedVehicle = vehicle.id.toString();
-
     this.vehicleService.selectDriver(this.driverId, vehicle.id).pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
 
     });

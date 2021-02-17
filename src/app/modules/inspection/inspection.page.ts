@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ParamService } from '../../services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inspection',
@@ -14,7 +15,8 @@ export class InspectionPage implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    public paramService: ParamService
+    public paramService: ParamService,
+    private route: Router,
   ) {
     this.statusList = [
       { value: 'GPS', isChecked: false },
@@ -59,5 +61,9 @@ export class InspectionPage implements OnInit {
       this.isSelectAll = false;
       this.paramService.gpsStatus = false;
     }
+  }
+
+  goBack() {
+    this.route.navigate(['./check-gps']);
   }
 }

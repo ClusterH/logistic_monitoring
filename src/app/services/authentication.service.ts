@@ -20,4 +20,20 @@ export class AuthenticationService {
       params: params
     });
   }
+
+  getCurrentTripWatch(user: any): Observable<any> {
+    let headers = new HttpHeaders();
+    headers = headers.append("Authorization", "Basic " + btoa("trackingxl:4W.f#jB*[pE.j9m"));
+    let params = new HttpParams()
+      .set('userid', user.userID.toString())
+      .set('conncode', user.conncode.toString())
+      .set('token', user.token.toString())
+      .set('driverid', user.userID.toString())
+      .set('method', 'getcurrent_tripwatch')
+
+    return this._httpClient.get(`${Constants.BASE_URL}/trackingxlapi.ashx`, {
+      headers: headers,
+      params: params
+    });
+  }
 }

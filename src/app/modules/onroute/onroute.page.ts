@@ -41,6 +41,7 @@ export class OnroutePage implements OnInit, OnDestroy {
     this._unsubscribeAll = new Subject();
     this.status = 'On Route';
     this.plt.ready().then(() => {
+      this.startAlert();
       this.startNotification();
     });
   }
@@ -67,7 +68,7 @@ export class OnroutePage implements OnInit, OnDestroy {
   startNotification() {
     this.setInterval = setInterval(() => {
       this.startAlert();
-    }, 30000)
+    }, 900000)
   }
 
   async startAlert() {
